@@ -180,7 +180,7 @@ class _BottomBarViewState extends State<BottomBarView>
                               MaterialPageRoute(
                                   builder: (context) => SendObs()),
                             );
-                            Navigator.popUntil(context, (route) => route.isFirst);
+                            
 
                           },
                           child: const Icon(
