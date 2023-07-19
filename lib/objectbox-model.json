@@ -1,0 +1,146 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:3700304041740702993",
+      "lastPropertyId": "12:139116998772131661",
+      "name": "Observation",
+      "properties": [
+        {
+          "id": "1:5004875559682120053",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8539300415548191803",
+          "name": "titulo",
+          "type": 9
+        },
+        {
+          "id": "3:8300849595602516382",
+          "name": "descricao",
+          "type": 9
+        },
+        {
+          "id": "4:3635837739136146972",
+          "name": "geocode",
+          "type": 9
+        },
+        {
+          "id": "5:3247695167272987249",
+          "name": "public",
+          "type": 1
+        },
+        {
+          "id": "6:3303297332622526562",
+          "name": "slugs",
+          "type": 9
+        },
+        {
+          "id": "7:2041734917857331463",
+          "name": "latitude",
+          "type": 8
+        },
+        {
+          "id": "8:3558715404303138624",
+          "name": "longitude",
+          "type": 8
+        },
+        {
+          "id": "9:4389160026631136037",
+          "name": "imageFile",
+          "type": 30
+        },
+        {
+          "id": "10:8174935587505472462",
+          "name": "emailController",
+          "type": 9
+        },
+        {
+          "id": "11:2212367495150789262",
+          "name": "nameOfSlug",
+          "type": 9
+        },
+        {
+          "id": "12:139116998772131661",
+          "name": "userGroupSlug",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:8837789318023097971",
+      "lastPropertyId": "10:518715508312367429",
+      "name": "User",
+      "properties": [
+        {
+          "id": "1:4428096080477117358",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:529374394741487246",
+          "name": "nome",
+          "type": 9
+        },
+        {
+          "id": "3:6975517365595751071",
+          "name": "email",
+          "type": 9
+        },
+        {
+          "id": "4:7347330242755323143",
+          "name": "username",
+          "type": 9
+        },
+        {
+          "id": "5:215957816147837882",
+          "name": "filePath",
+          "type": 9
+        },
+        {
+          "id": "6:4487043847394684398",
+          "name": "nrObs",
+          "type": 6
+        },
+        {
+          "id": "7:2570295198363704476",
+          "name": "subSlug",
+          "type": 30
+        },
+        {
+          "id": "8:4542985098358672396",
+          "name": "subSlugname",
+          "type": 30
+        },
+        {
+          "id": "9:3605349020199537247",
+          "name": "userGroupsName",
+          "type": 30
+        },
+        {
+          "id": "10:518715508312367429",
+          "name": "userGroupsSlug",
+          "type": 30
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "2:8837789318023097971",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}
