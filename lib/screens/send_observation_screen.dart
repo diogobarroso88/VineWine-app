@@ -17,6 +17,7 @@ import '../navigation_home_screen.dart';
 
 
 
+
 class SendObs extends StatefulWidget {
 
   @override
@@ -26,29 +27,98 @@ class SendObs extends StatefulWidget {
 class _SendObsState extends State<SendObs> {
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
 
+  var my_services;
 
+  _onclicked(value) {
+    print('Clicked...' + value.toString());
+  }
 
   List<bool> _selections = [true, false];
   bool public = false;
   bool isSomeProgress = false;
   bool notValidated = false;
   bool isOnline = true;
+  bool notPheno = true;
+  bool isPheno = false;
   Position? _position;
 
 
   late Future locationMap;
 
   late String titleController;
+  late String setTitleController;
   late String descriptionController;
   late String geocodeController;
   late String userGroupController="";
   late String slugChoose = "" ;
+  late String titleChoose = "";
   late String userGroupChoose = "";
   late double latitude;
   late double longitude;
 
+  List<String> setNamePT = [
+    "A - Gomo de Inverno",
+    "B - Gomo de Algodão",
+    "C - Ponta Verde",
+    "D - Saída de Folhas",
+    "E - Folhas Livres",
+    "F - Cachos Visíveis",
+    "G - Cachos Separados",
+    "H - Botões Florais Separados",
+    "I - Floração",
+    "J - Alimpa",
+    "K - Bago de Ervilha",
+    "L - Cacho Fechado",
+    "M - Pintor",
+    "N - Maturação",
+    "O - Atempamento da Vara",
+    "P - Queda de Folhas"
+  ];
+
+  List<String> setNameES = [
+    "A - Gomo de Inverno",
+    "B - Gomo de Algodão",
+    "C - Ponta Verde",
+    "D - Saída de Folhas",
+    "E - Folhas Livres",
+    "F - Cachos Visíveis",
+    "G - Cachos Separados",
+    "H - Botões Florais Separados",
+    "I - Floração",
+    "J - Alimpa",
+    "K - Bago de Ervilha",
+    "L - Cacho Fechado",
+    "M - Pintor",
+    "N - Maturação",
+    "O - Atempamento da Vara",
+    "P - Queda de Folhas"
+  ];
+
+  List<String> setNameEN = [
+    "A - Winter Bud",
+    "B - Woolly Bud",
+    "C - Bud Break",
+    "D - Leaf Emergence",
+    "E - Leaves Separated",
+    "F - Inflorescences Visible",
+    "G - Inflorescences Separated",
+    "H - Flowers Separated",
+    "I - Bloom",
+    "J - Fruit Set",
+    "K - Pea Berries Size",
+    "L - Berries Touching",
+    "M - Veraison",
+    "N - Maturity",
+    "O - Cane Maturation",
+    "P - Leaf Fall"
+  ];
+
+  List<String> setName = [];
+
 
   List listItem = [];
+
+
   List listSlug = [];
   List listUserGroupName = [];
   List listUserGroupId = [];
@@ -87,6 +157,21 @@ class _SendObsState extends State<SendObs> {
     }
   }
 
+  Future whatLang() async {
+    var languageSelected = await TokenStorage.readSecureData("lingua");
+    print(languageSelected);
+    if (languageSelected == "pt"){
+      setName.clear();
+      setName = setNamePT;
+    } else if (languageSelected == "es"){
+      setName.clear();
+      setName = setNameES;
+    } else if (languageSelected == "en"){
+      setName.clear();
+      setName = setNameEN;
+    }
+  }
+
 
 
   //GPS Location
@@ -108,11 +193,6 @@ class _SendObsState extends State<SendObs> {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        // Permissions are denied, next time you could try
-        // requesting permissions again (this is also where
-        // Android's shouldShowRequestPermissionRationale
-        // returned true. According to Android guidelines
-        // your App should show an explanatory UI now.
         return Future.error('Location permissions are denied');
       }
     }
@@ -139,31 +219,53 @@ class _SendObsState extends State<SendObs> {
 
   //Keep and read observations from database
   void readAll() async {
+
     var list = await objectbox.queryAllUsers();
     String _emailController = await TokenStorage.readSecureData("authed");
 
     for (int i=0; i<list.length; i++) {
       if (list[i]["Email"] == _emailController){
-
         setState(() {
           listItem = list[i]["Slugs Subscritas"];
           listSlug = list[i]["Nome Slug"];
           listUserGroupName = list[i]["UserGroups"];
           listUserGroupId = list[i]["UserGroupsSlug"];
         });
+        print(listItem.length);
 
         for (int j=0; j<listItem.length; j++) {
+
           setState(() {
             slugs[listItem[j]] = listSlug[j];
+          });
+        }
+
+        for (int j=0; j<listUserGroupName.length; j++) {
+
+          setState(() {
             userGroups[listUserGroupName[j]] = listUserGroupId[j];
           });
         }
+
+
         setState(() {
           slugChoose=listItem[0];
           userGroupChoose=listUserGroupName[0];
+
         });
-        print(slugChoose);
-        print(userGroupChoose);
+
+        if (slugChoose == "Registo de estados fenológicos da videira"){
+          setState(() {
+            isPheno = true;
+            notPheno = false;
+          });
+        } else {
+          setState(() {
+            isPheno = false;
+            notPheno = true;
+          });
+        }
+
       }
     }
 
@@ -176,7 +278,6 @@ void keepObservation() async {
     print(imageFilePath);
     await objectbox.addObservation(titleController, descriptionController, geocodeController, public, slugs[slugChoose], longitude, latitude,  imageFilePath, _emailController, slugChoose, userGroups[userGroupChoose]);
   }
-
 
 
   void readObservations() async {
@@ -198,6 +299,7 @@ void keepObservation() async {
   @override
   void initState() {
     super.initState();
+    whatLang();
     readAll();
     locationMap = _determinePosition();
     isItOnline();
@@ -213,6 +315,7 @@ void keepObservation() async {
 
   @override
   Widget build(BuildContext context) {
+
 
     return WillPopScope(
       onWillPop: _onBackPressed,
@@ -252,7 +355,9 @@ void keepObservation() async {
                           ),
                         ),
                         const SizedBox(height: 25),
+
                         buildTitle(),
+                        buildTitlePheno(),
                         const SizedBox(height: 25),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -669,8 +774,12 @@ void keepObservation() async {
                                     color: Colors.transparent,
                                     child: InkWell(
                                       onTap: () async{
+                                        showDialog(context: context, builder: (context){
+                                          return Center(child: CircularProgressIndicator(
+                                            color: Color(0xff336db0),
+                                          ));
+                                        });
                                         validateAndSave();
-
                                         if (notValidated == false){
                                           if (slugs[slugChoose] != null){
                                             if (imageFile.isNotEmpty) {
@@ -678,41 +787,46 @@ void keepObservation() async {
                                                 final result = await InternetAddress.lookup('google.com');
                                                 if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
 
-                                                  setState(() {
-                                                    isSomeProgress =true;
-                                                  });
-
                                                   _determinePosition();
 
-                                                  var response = await APIService.sendObs(titleController,descriptionController,geocodeController,public,slugs[slugChoose],latitude,longitude, imageFile,userGroups[userGroupChoose]);
-                                                  if (response ==200) {
-                                                    setState(() {
-                                                      isSomeProgress =false;
-                                                    });
-                                                    _sendObsSuccess(context);
+                                                  if(slugs[slugChoose] == "vine-phenological-states"){
+                                                    var response = await APIService.sendObsVPS(setTitleController,descriptionController,geocodeController,public,slugs[slugChoose],latitude,longitude, imageFile,userGroups[userGroupChoose]);
+                                                    if (response ==200) {
+                                                      Navigator.of(context).pop();
+                                                      _sendObsSuccess(context);
+                                                    } else {
+                                                      Navigator.of(context).pop();
+                                                      _sendObsFailed(context);
+                                                    }
                                                   } else {
-                                                    setState(() {
-                                                      isSomeProgress =false;
-                                                    });
-                                                    _sendObsFailed(context);
+                                                    var response = await APIService.sendObs(titleController,descriptionController,geocodeController,public,slugs[slugChoose],latitude,longitude, imageFile,userGroups[userGroupChoose]);
+                                                    if (response ==200) {
+                                                      Navigator.of(context).pop();
+                                                      _sendObsSuccess(context);
+                                                    } else {
+                                                      Navigator.of(context).pop();
+                                                      _sendObsFailed(context);
+                                                    }
                                                   }
                                                 }
                                               } on SocketException catch (_) {
                                                 validateAndSave();
                                                 if (notValidated == false) {
                                                   if (imageFile.isNotEmpty){
+                                                    Navigator.of(context).pop();
                                                     _offlineError(context);
                                                   }
                                                 }
                                               }
                                             }else {
+                                              Navigator.of(context).pop();
                                               _noImageError(context);
                                             }
                                           }else {
+                                            Navigator.of(context).pop();
                                             _noServiceError(context);
                                           }
                                         }
-
                                       },
                                       child: Center(
                                         child: Padding(
@@ -771,14 +885,26 @@ void keepObservation() async {
               child: DropdownButton(
                 hint: slugs.isEmpty ? Text(AppLocalizations.of(context).no_slugs) : Text(AppLocalizations.of(context).choose_service,),
                 isExpanded: true,
-                value: slugChoose,
                 onChanged: (newValue) {
+
+                  if (newValue == "Registo de estados fenológicos da videira"){
+                    setState(() {
+                      isPheno = true;
+                      notPheno = false;
+                    });
+                  } else {
+                    setState(() {
+                      isPheno = false;
+                      notPheno = true;
+                    });
+                  }
                   setState(() {
                     slugChoose = newValue as String;
                     print(slugChoose);
                   });
                   print (slugs[slugChoose]);
                 },
+                value: slugChoose,
                 items: listItem.map((valueItem) {
                   return DropdownMenuItem(
                     value: valueItem,
@@ -815,7 +941,6 @@ void keepObservation() async {
               child: DropdownButton(
                 hint: userGroups.isEmpty ? Text(AppLocalizations.of(context).no_slugs) : Text(AppLocalizations.of(context).choose_service,),
                 isExpanded: true,
-                value: userGroupChoose,
                 onChanged: (newValue) {
                   setState(() {
                     userGroupChoose = newValue as String;
@@ -823,6 +948,7 @@ void keepObservation() async {
                   });
                   print (userGroups[userGroupChoose]);
                 },
+                value: userGroupChoose,
                 items: listUserGroupName.map((valueItem) {
                   return DropdownMenuItem(
                     value: valueItem,
@@ -837,59 +963,113 @@ void keepObservation() async {
   }
 
   Widget buildTitle() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          margin: const EdgeInsets.only(left: 15.0),
-          child: Text(
-            AppLocalizations.of(context).obs_title,
-            style: const TextStyle(
-                color: Color(0xFF346cb0),
-                fontSize: 16,
-                fontWeight: FontWeight.w800
-            ),
-          ),
-        ),
-        const SizedBox(height: 10),
-        Container(
-          margin: const EdgeInsets.all(12.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black26,
-                blurRadius: 6,
-                offset: Offset(0,2),
-              ),
-            ],
-          ),
-          padding: const EdgeInsets.all(15.0),
-          alignment: Alignment.centerLeft,
-          height: 60,
-          child: TextFormField(
-            keyboardType: TextInputType.text,
-            validator: (input) =>
-            input!.isEmpty
-                ? AppLocalizations.of(context).obs_title_hint
-                : null,
-            onSaved: (String? value){
-              titleController = value!;
-            },
-            style: const TextStyle(
-                color: Colors.black87
-            ),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: AppLocalizations.of(context).obs_title_hint,
-              hintStyle: const TextStyle(
-                  color: Colors.black38
+    return Visibility(
+      visible: notPheno,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            margin: const EdgeInsets.only(left: 15.0),
+            child: Text(
+              AppLocalizations.of(context).obs_title,
+              style: const TextStyle(
+                  color: Color(0xFF346cb0),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800
               ),
             ),
           ),
-        )
-      ],
+          const SizedBox(height: 10),
+          Container(
+            margin: const EdgeInsets.all(12.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 6,
+                  offset: Offset(0,2),
+                ),
+              ],
+            ),
+            padding: const EdgeInsets.all(15.0),
+            alignment: Alignment.centerLeft,
+            height: 60,
+            child: TextFormField(
+              keyboardType: TextInputType.text,
+              validator: (input) =>
+              input!.isEmpty
+                  ? AppLocalizations.of(context).obs_title_hint
+                  : null,
+              onSaved: (String? value){
+                titleController = value!;
+              },
+              style: const TextStyle(
+                  color: Colors.black87
+              ),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: AppLocalizations.of(context).obs_title_hint,
+                hintStyle: const TextStyle(
+                    color: Colors.black38
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget buildTitlePheno() {
+    return Visibility(
+      visible: isPheno,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            margin: const EdgeInsets.only(left: 15.0),
+            child: Text(
+              AppLocalizations.of(context).obs_title,
+              style: const TextStyle(
+                  color: Color(0xFF346cb0),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Container(
+            padding: const EdgeInsets.fromLTRB(12.0, 10.0, 12.0, 10.0),
+            child: ButtonTheme(
+              alignedDropdown: true,
+              child: DropdownButton<String>(
+                hint: Text(AppLocalizations.of(context).obs_title_hint),
+                elevation: 16,
+                isExpanded: true,
+                style:
+                const TextStyle(color: Colors.black, fontSize: 16.0),
+                onChanged: (String? changedValue) {
+                  my_services = changedValue;
+                  setTitleController = my_services;
+                  setState(() {
+                    my_services;
+                    _onclicked(my_services);
+                  });
+                },
+                value: my_services,
+                items: setName.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: new Text(value),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

@@ -82,5 +82,21 @@
   "no_slugs" : "No subscribed services",
   "privacy" : "Privacy policy",
   "double_acc" : "Email or username already used, please try again",
-  "userGroup_esc" : "Choose a User Group"
+  "userGroup_esc" : "Choose a User Group",
+  "titleA" : "A - Gomo de Inverno",
+  "titleB" : "B - Gomo de Algodão",
+  "titleC" : "C - Ponta Verde",
+  "titleD" : "D - Saída de Folhas",
+  "titleE" : "E - Folhas Livres",
+  "titleF" : "F - Cachos Visíveis",
+  "titleG" : "G - Cachos Separados",
+  "titleH" : "H - Botões Florais Separados",
+  "titleI" : "I - Floração",
+  "titleJ" : "J - Alimpa",
+  "titleK" : "K - Bago de Ervilha",
+  "titleL" : "L - Cacho Fechado",
+  "titleM" : "M - Pintor",
+  "titleN" : "N - Maturação",
+  "titleO" : "O - Atempamento da Vara",
+  "titleP" : "P - Queda de Folhas"
 }

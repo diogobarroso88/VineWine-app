@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:analyzer/dart/ast/token.dart';
+
 import '../main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -70,78 +72,19 @@ class _ProfilePageState extends State<ProfilePage> {
       }
     }
 
-    var person = await objectbox.queryPerson(id);
-
-    var _data = await APIService.getService();
-    var _data1 = await APIService.getUser();
-
-    setState(() {
-      nome = _data1[0];
-      imageUrl = _data1[1];
-      email = _data1[2];
-      username = _data1[3];
-    });
-    Uri uriUrl = Uri.parse(imageUrl);
-    final response = await http.get(uriUrl);
-    final documentDirectory = await getApplicationDocumentsDirectory();
-    final file = File(path.join(documentDirectory.path, 'avatar$randomNumber$nome.png'));
-    file.writeAsBytesSync(response.bodyBytes);
-    setState(() {
-      image = file.path;
-    });
-
-    String _nameslug;
-    String _slug;
-    setState(() {
-      nrObs = 0 ;
-      subsSlugs.clear();
-      _slugs.clear();
-    });
-
-    for(int i=0;i<_data.length;i++) {
-      if (_data[i]["subscribed"] == true) {
-        _nameslug = _data[i]["name"];
-        _slug = _data[i]["slug"];
-        setState(() {
-          subsSlugs.add(_nameslug);
-          _slugs.add(_slug);
-        });
+    var listObsDel = await objectbox.queryAllObservations();
+    for (int i=0;i<listObsDel.length;i++){
+      if (listObsDel[i]["email"]==_emailController) {
+        await objectbox.removeObservation(listObsDel[i]["id"]);
       }
     }
 
-    setState(() {
-      nrServicos = subsSlugs.length;
-    });
+    await objectbox.removeUser(id);
+    await TokenStorage.deleteSecureData("authed");
+    await TokenStorage.deleteSecureData("logged");
 
-    for(int i=0; i<_slugs.length; i++){
-      var _data2 = await APIService.getNrObs(_slugs[i]);
-      setState(() {
-        nrObs = nrObs + _data2;
-      });
-    }
-
-    person?.nome = nome;
-    person?.username = username;
-    person?.filePath = image;
-    person?.email = email;
-    person?.subSlug = subsSlugs;
-    person?.subSlugname = _slugs;
-    person?.nrObs = nrObs;
-    await objectbox.addUser(nome, username, image, email, nrObs, subsSlugs, _slugs, userGroupsName, userGroupsSlug);
-    print("Sucessfully updated an object with $id");
-
-    setState(() {
-      isSomeProgress =true;
-    });
-
-    setState(() {
-      isSomeProgress =true;
-    });
-
-
+    Navigator.of(context).pop();
     _updateInfo(context);
-
-
   }
 
   Future<bool> _onBackPressed() async {
@@ -304,13 +247,18 @@ class _ProfilePageState extends State<ProfilePage> {
                                             children: [
                                               TextButton(
                                                 onPressed: () async {
-
+                                                  showDialog(context: context, builder: (context){
+                                                    return Center(child: CircularProgressIndicator(
+                                                      color: Color(0xff336db0),
+                                                    ));
+                                                  });
                                                   try {
                                                     final result = await InternetAddress.lookup('google.com');
                                                     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                                                       refreshData();
                                                     }
                                                   } on SocketException catch (_) {
+                                                    Navigator.of(context).pop();
                                                     _offlineError(context);
                                                   }
                                                 },

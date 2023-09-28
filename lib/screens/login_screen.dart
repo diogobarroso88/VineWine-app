@@ -69,6 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (languageSelected == null){
       langSelected="pt";
+      await TokenStorage.writeSecureData("lingua", langSelected);
     } else {
       langSelected=languageSelected.toString();
     }
@@ -133,6 +134,8 @@ class _LoginScreenState extends State<LoginScreen> {
     MyApp.setLocale(context, _temp);
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -140,6 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: SafeArea(
         top: false,
         child: Scaffold(
+          backgroundColor: AppTheme.nearlyWhite,
           body: SingleChildScrollView(
 
               child: Form(
@@ -190,57 +194,56 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () async{
-                                //final progress = ProgressHUD.of(context);
-                                //progress?.show();
-                                  if (validateAndSave() == true) {
-                                    {
+                                 validateAndSave();
+                                if (validateAndSave()==true) {
+                                  showDialog(context: context, builder: (context){
+                                    return Center(child: CircularProgressIndicator(
+                                      color: Color(0xff336db0),
+                                    ));
+                                  });
 
-                                      key=emailController+passwordController;
-                                      var token = await TokenStorage.readSecureData(key);
+                                  key=emailController+passwordController;
+                                  var token = await TokenStorage.readSecureData(key);
+                                  if (token == null ) {
+                                    try {
+                                      final result = await InternetAddress.lookup('google.com');
+                                      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                        var response = await APIService.login(emailController, passwordController);
+                                        if (response != 200) {
+                                          Navigator.of(context).pop();
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text(AppLocalizations.of(context).wrong_emailPass,),
+                                            ),
+                                          );
+                                        } else {
 
-                                      if (token == null ) {
-                                        try {
-                                          final result = await InternetAddress.lookup('google.com');
-                                          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                            var response = await APIService.login(emailController, passwordController);
-                                            if (response != 200) {
-                                              //progress?.dismiss();
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(
-                                                  content: Text(AppLocalizations.of(context).wrong_emailPass,),
-                                                ),
-                                              );
-                                            } else {
+                                          String _token = await TokenStorage.readSecureData(key);
+                                          TokenStorage.writeSecureData("logged", _token);
+                                          TokenStorage.writeSecureData("authed", emailController);
+                                          Navigator.of(context).pop();
 
-                                              String _token = await TokenStorage.readSecureData(key);
-                                              TokenStorage.writeSecureData("logged", _token);
-                                              TokenStorage.writeSecureData("authed", emailController);
-                                              //progress?.dismiss();
-
-                                              Navigator.pushReplacement(context,
-                                                  MaterialPageRoute(builder:(context)=> NavigationHomeScreen()
-                                                  ));
-                                            }
-                                          }
-                                        } on SocketException catch (_) {
-                                          //progress?.dismiss();
-                                          _offlineError(context);
+                                          Navigator.pushReplacement(context,
+                                              MaterialPageRoute(builder:(context)=> NavigationHomeScreen()
+                                              ));
                                         }
-
-
-                                      } else {
-                                        TokenStorage.writeSecureData("logged", token);
-                                        TokenStorage.writeSecureData("authed", emailController);
-                                        //progress?.dismiss();
-                                        Navigator.pushReplacement(context,
-                                            MaterialPageRoute(builder:(context)=> NavigationHomeScreen()
-                                            ));
                                       }
-                                      FocusScope.of(context).requestFocus(FocusNode());
+                                    } on SocketException catch (_) {
+                                      Navigator.of(context).pop();
+                                      _offlineError(context);
                                     }
+
+
                                   } else {
-                                    //progress?.dismiss();
+                                    TokenStorage.writeSecureData("logged", token);
+                                    TokenStorage.writeSecureData("authed", emailController);
+                                    Navigator.of(context).pop();
+                                    Navigator.pushReplacement(context,
+                                        MaterialPageRoute(builder:(context)=> NavigationHomeScreen()
+                                        ));
                                   }
+                                  FocusScope.of(context).requestFocus(FocusNode());
+                                }
                               },
                               child:  Center(
                                 child: Padding(

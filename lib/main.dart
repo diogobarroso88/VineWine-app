@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:vinewineapp/screens/login_screen.dart';
+import 'package:vinewineapp/screens/splash_screen.dart';
 import 'database/objectbox.dart';
 import 'database/token_storage.dart';
 import 'models/languages.dart';
@@ -182,7 +183,7 @@ class _MyAppState extends State<MyApp> {
 
 
         ),
-        home: _authed == false ?  const LoginScreen() : NavigationHomeScreen()
+        home: Splash()
     );
   }
 }

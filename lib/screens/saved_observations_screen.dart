@@ -134,12 +134,7 @@ class _SavedObservationsState extends State<SavedObservations> {
       }
 
     }
-
-
-
     return response;
-
-
   }
 
   void checkObservations() async {
@@ -246,13 +241,16 @@ class _SavedObservationsState extends State<SavedObservations> {
                               color: Colors.transparent,
                               child: InkWell(
                                 onTap: () async{
+                                  showDialog(context: context, builder: (context){
+                                    return Center(child: CircularProgressIndicator(
+                                      color: Color(0xff336db0),
+                                    ));
+                                  });
 
                                   try {
                                     final result = await InternetAddress.lookup('google.com');
                                     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                      setState(() {
-                                        isSomeProgress = true;
-                                      });
+
                                       int? resposta;
 
                                       resposta = await sendAllObservations(indexes);
@@ -267,18 +265,17 @@ class _SavedObservationsState extends State<SavedObservations> {
                                           savedSlugs.clear();
                                           checkObs = false;
                                           savedUserGroupId.clear();
-
                                         }
-                                        isSomeProgress = false;
                                       });
                                       if (resposta == 200) {
+                                        Navigator.of(context).pop();
                                         _sendObsSuccess(_scaffoldKey.currentContext!);
                                       }
 
                                     }
                                   } on SocketException catch (_) {
+                                    Navigator.of(context).pop();
                                     _offlineError(context);
-                                    print ("OFFLINE");
                                   }
 
                                 },
@@ -427,7 +424,6 @@ class _SavedObservationsState extends State<SavedObservations> {
                                   IconButton(
                                     icon: const Icon(Icons.remove_red_eye),
                                     onPressed: () {
-
                                       showMessageDialog(context,index);
                                     },
                                   ),
@@ -453,13 +449,16 @@ class _SavedObservationsState extends State<SavedObservations> {
                                   IconButton(
                                     icon: const Icon(Icons.send),
                                     onPressed: () async {
+                                      showDialog(context: context, builder: (context){
+                                        return Center(child: CircularProgressIndicator(
+                                          color: Color(0xff336db0),
+                                        ));
+                                      });
+
                                       int resposta;
                                       try {
                                         final result = await InternetAddress.lookup('google.com');
                                         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                          setState(() {
-                                            isSomeProgress =true;
-                                          });
                                           resposta = await sendOffObservations(indexes[index]);
 
                                           setState(() {
@@ -476,16 +475,16 @@ class _SavedObservationsState extends State<SavedObservations> {
                                                   checkObs = false;
                                                 });
                                               }
+                                              Navigator.of(context).pop();
                                             }
                                           });
 
                                         }
                                       } on SocketException catch (_) {
+                                        Navigator.of(context).pop();
                                         _offlineError(context);
-                                        print ("OFFLINE");
                                       }
                                     },
-
                                   ),
                                 ],
                               ));

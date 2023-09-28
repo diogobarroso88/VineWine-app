@@ -180,7 +180,7 @@ class _BottomBarViewState extends State<BottomBarView>
                               MaterialPageRoute(
                                   builder: (context) => SendObs()),
                             );
-                            
+
 
                           },
                           child: const Icon(

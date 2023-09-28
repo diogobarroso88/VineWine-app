@@ -7,7 +7,8 @@ class TokenStorage{
     await storage.write(key: key, value: token);
   }
 
-  static Future readSecureData(String key) async {
+  static Future readSecureData(String
+  key) async {
     String? readData = await storage.read(key: key);
     return readData;
   }
