@@ -8,8 +8,6 @@ import '../APIservices/apiservice.dart';
 import '../app_theme.dart';
 import '../database/token_storage.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import '../navigation_home_screen.dart';
 import 'edit_observation_screen.dart';
 
 
@@ -37,13 +35,12 @@ class _SavedObservationsState extends State<SavedObservations> {
   late List savedUserGroupId = [];
 
 
-
-
-
+  ///Delete Observation by Index
   void deleteObsById(int index) async {
     await objectbox.removeObservation(index);
   }
 
+  ///Send Observation by Index
   Future<int> sendOffObservations(int index) async {
     List<File> imageFile = [];
     String? title = "";
@@ -74,28 +71,19 @@ class _SavedObservationsState extends State<SavedObservations> {
 
     var response = await APIService.sendObs(title!,descri!,geocode!,public!,slug!,latitude!,longitude!, imageFile,userGroup!);
 
-
     if (response ==200) {
       imageFile.clear();
-      setState(() {
-        isSomeProgress =false;
-      });
-
       deleteObsById(index);
+      Navigator.of(context).pop();
       _sendObsSuccess(context);
-
     } else {
-      setState(() {
-        isSomeProgress =false;
-      });
+      Navigator.of(context).pop();
       _sendObsFailed(context);
     }
-
     return response;
-
-
   }
 
+  ///Send All Observations
   Future<int?> sendAllObservations(List index) async {
 
     List<File>? imageFile = [];
@@ -137,6 +125,7 @@ class _SavedObservationsState extends State<SavedObservations> {
     return response;
   }
 
+  ///Check if there are any Observations pending
   void checkObservations() async {
     String _emailController2 = await TokenStorage.readSecureData("authed");
 
@@ -168,6 +157,7 @@ class _SavedObservationsState extends State<SavedObservations> {
 
   }
 
+  ///Back Button to dismiss the view observation window
   Future<bool> _onBackPressed() async {
     return false;
   }
@@ -471,11 +461,7 @@ class _SavedObservationsState extends State<SavedObservations> {
                                               savedPublic.removeAt(index);
                                               savedSlugs.removeAt(index);
                                               if (titles.isEmpty) {
-                                                setState(() {
-                                                  checkObs = false;
-                                                });
                                               }
-                                              Navigator.of(context).pop();
                                             }
                                           });
 

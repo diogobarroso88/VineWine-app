@@ -1,11 +1,9 @@
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vinewineapp/models/tabIcon_data.dart';
-import 'package:vinewineapp/screens/privacy_police_screen.dart';
-
 import 'app_theme.dart';
 import 'custom_drawer/drawer_user_controller.dart';
 import 'custom_drawer/home_drawer.dart';
 import 'package:flutter/material.dart';
-import '../main.dart';
 import 'home_screen.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
@@ -51,7 +49,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
     );
   }
 
-  void changeIndex(DrawerIndex drawerIndexdata) {
+  void changeIndex(DrawerIndex drawerIndexdata) async{
     if (drawerIndex != drawerIndexdata) {
       drawerIndex = drawerIndexdata;
       if (drawerIndex == DrawerIndex.HOME) {
@@ -68,9 +66,15 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
         });
       } else if (drawerIndex == DrawerIndex.About) {
         setState(() {
-          screenView = PrivacyScreen();
+          drawerIndex = DrawerIndex.HOME;
         });
+        final Uri toLaunch = Uri(scheme: 'https', host: 'mysenseapi.utad.pt', path: 'docs/privacy');
 
+        if (await canLaunchUrl(toLaunch)) {
+          await launchUrl(toLaunch);
+        } else {
+          throw 'Could not launch $toLaunch';
+        }
       }
     }
   }

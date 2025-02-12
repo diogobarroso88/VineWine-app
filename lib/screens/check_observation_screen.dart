@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -41,6 +40,7 @@ class _CheckObsScreenState extends State<CheckObsScreen> {
   bool isSomeProgress = false;
   bool isSelected = false;
 
+  /// Read data from objectbox database
   Future<List> readAll() async {
 
 
@@ -86,7 +86,6 @@ class _CheckObsScreenState extends State<CheckObsScreen> {
         List<List<String>> obsData  = await APIService.getObsData(slugChoose);
         List<List<String>> obsImg = await APIService.getObsImages(slugChoose);
 
-
         if (obsData.isNotEmpty){
 
           if (mounted){
@@ -109,6 +108,7 @@ class _CheckObsScreenState extends State<CheckObsScreen> {
     }
   }
 
+  /// Slug Selection widget
   Widget buildSlugs() {
 
 

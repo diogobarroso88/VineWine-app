@@ -24,7 +24,7 @@ class ObjectBox {
 
   }
 
-  /// Create an instance of ObjectBox to use throughout the app.
+  /// Create ObjectBox instance
   static Future<ObjectBox> create() async {
     final store = await openStore(
         directory: p.join(
@@ -33,7 +33,7 @@ class ObjectBox {
   }
 
 
-  /// Get instances
+  /// Get Users and Observations
 
   Future<List<Map>> queryAllUsers() async {
 
@@ -61,7 +61,6 @@ class ObjectBox {
     var usr = _userBox.get(id);
     return usr;
   }
-
 
   Future<List<Map<dynamic, dynamic>>> queryAllObservations() async {
 
@@ -93,7 +92,7 @@ class ObjectBox {
     return obs;
   }
 
-  /// Add and remove instances
+  /// Add and Remove Users and Observations
 
   Future<void> addUser(String text, String text1, String text2, String text3, int text4, List<String> text5, List<String> text6, List<String> text7, List<String> usergroupsslug) async {
       _userBox.putAsync(User(

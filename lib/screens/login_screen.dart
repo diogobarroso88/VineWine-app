@@ -6,7 +6,6 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import '../APIservices/apiservice.dart';
 import '../app_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import '../database/token_storage.dart';
 import '../models/languages.dart';
 import '../navigation_home_screen.dart';
@@ -34,6 +33,44 @@ class _LoginScreenState extends State<LoginScreen> {
   bool hidePassword = true;
 
 
+  @override
+  void initState() {
+    super.initState();
+    whatLanguage();
+  }
+
+  /// Back Button
+  Future<bool> _onBackPressed() async {
+    return false;
+  }
+
+  /// Validation of authentication fields
+  bool validateAndSave() {
+    if(globalFormKey.currentState!.validate()){
+      globalFormKey.currentState!.save();
+      return true;
+    } else
+      return false;
+  }
+
+  /// Language Selection
+  void _changeLanguage(Language language) {
+    Locale _temp;
+    switch(language.languageCode){
+      case 'pt':
+        _temp = Locale(language.languageCode, 'PT');
+        break;
+      case 'en':
+        _temp = Locale(language.languageCode, 'GB');
+        break;
+      case 'es':
+        _temp = Locale(language.languageCode, 'ES');
+        break;
+      default:
+        _temp = Locale(language.languageCode, 'PT');
+    }
+    MyApp.setLocale(context, _temp);
+  }
   void selectedLanguage(String codigopais)  {
     String linguaSel;
     String bandeira;
@@ -95,43 +132,6 @@ class _LoginScreenState extends State<LoginScreen> {
       _selectedLang = linguaSel;
       _bandeira = bandeira;
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    whatLanguage();
-  }
-
-
-  Future<bool> _onBackPressed() async {
-    return false;
-  }
-
-  bool validateAndSave() {
-    if(globalFormKey.currentState!.validate()){
-      globalFormKey.currentState!.save();
-      return true;
-    } else
-      return false;
-  }
-
-  void _changeLanguage(Language language) {
-    Locale _temp;
-    switch(language.languageCode){
-      case 'pt':
-        _temp = Locale(language.languageCode, 'PT');
-        break;
-      case 'en':
-        _temp = Locale(language.languageCode, 'GB');
-        break;
-      case 'es':
-        _temp = Locale(language.languageCode, 'ES');
-        break;
-      default:
-        _temp = Locale(language.languageCode, 'PT');
-    }
-    MyApp.setLocale(context, _temp);
   }
 
 

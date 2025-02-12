@@ -218,20 +218,16 @@ class _EditObsState extends State<EditObs> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: <Widget>[
-
                         const SizedBox(height: 40),
                         Container(
                           child: Align(
                             alignment: Alignment.topLeft,
                             child: IconButton(icon: const Icon(Icons.arrow_back),
                               onPressed: (){
-                                Navigator.pushReplacement(context,
-                                    MaterialPageRoute(builder:(context)=> NavigationHomeScreen()
-                                    ));
+                                Navigator.pop(context);
                               },
                             ),
                           ),
-
                         ),
                         const SizedBox(height: 10),
                         Container(
@@ -340,7 +336,6 @@ class _EditObsState extends State<EditObs> {
                                         if(nrImages<6){
                                           final files = await imageHelper.pickImageGallery(multiple: true);
                                           tempImageFile = files.map((e) => File(e.path)).toList();
-
                                           if (tempImageFile.isNotEmpty) {
                                             for (var i = 0; i < tempImageFile.length; i++) {
                                               if (nrImages<6){
@@ -382,9 +377,7 @@ class _EditObsState extends State<EditObs> {
                         ),
                         const SizedBox(height: 15),
                         Row(
-
                           mainAxisAlignment: MainAxisAlignment.center,
-
                           children: [
                             Container(
                                 margin: const EdgeInsets.all(4.0),
@@ -473,7 +466,6 @@ class _EditObsState extends State<EditObs> {
                                   ],
                                 )
                             ),
-
                           ],
                         ),
                         Row(

@@ -28,13 +28,6 @@ class _BottomBarViewState extends State<BottomBarView>
   late double latitude;
   late double longitude;
 
-  /*
-  void getCurrentLocation() async {
-    var position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    latitude = position.latitude;
-    longitude = position.longitude;
-  }
-  * */
 
 
   @override
@@ -180,8 +173,6 @@ class _BottomBarViewState extends State<BottomBarView>
                               MaterialPageRoute(
                                   builder: (context) => SendObs()),
                             );
-
-
                           },
                           child: const Icon(
                             Icons.add,

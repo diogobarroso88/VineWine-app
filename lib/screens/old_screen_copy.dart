@@ -110,129 +110,6 @@ class _SendObsState extends State<SendObs> {
     "P - Leaf Fall"
   ];
 
-  List<String> setNameTintosPT = [
-    "Alicante Bouschet",
-    "Alvarelhão",
-    "Alvarelhão Ceitão",
-    "Aragonez (Tinta Roriz)",
-    "Aramon",
-    "Baga",
-    "Barca",
-    "Barreto",
-    "Barreto",
-    "Bragão",
-    "Camarate",
-    "Carignan",
-    "Casculho",
-    "Castelã",
-    "Castelão",
-    "Cidadelhe",
-    "Concieira",
-    "Cornifesto",
-    "Corropio",
-    "Donzelinho Tinto",
-    "Engomada",
-    "Espadeiro",
-    "Gonçalo Pires",
-    "Grand Noir",
-    "Grangeal",
-    "Jaen",
-    "Lourela",
-    "Malandra",
-    "Malvasia Preta",
-    "Marufo",
-    "Melra",
-    "Mondet",
-    "Mourisco de Semente",
-    "Nevoeira",
-    "Patorra",
-    "Petit Bouschet",
-    "Pinot Noir",
-    "Português Azul",
-    "Preto Martinho",
-    "Ricoca",
-    "Roseira",
-    "Rufete",
-    "Santareno",
-    "São Saúl",
-    "Sevilhão",
-    "Sousão",
-    "Tinta Aguiar",
-    "Tinta Barroca",
-    "Tinta Carvalha",
-    "Tinta Fontes",
-    "Tinta Francisca",
-    "Tinta Lameira",
-    "Tinta Martins",
-    "Tinta Mesquita",
-    "Tinta Penajóia",
-    "Tinta Pereira",
-    "Tinta Pomar",
-    "Tinta Tabuaço",
-    "Tinto Cão",
-    "Tinto Sem Nome",
-    "Touriga Fêmea",
-    "Touriga Franca",
-    "Touriga Nacional",
-    "Trincadeira",
-    "Valdosa",
-    "Varejoa"
-  ];
-
-  List<String> setListBrancosPT = [
-    "Alicante Branco",
-    "Alvarelhão Branco",
-    "Arinto (Pedernã)",
-    "Avesso",
-    "Batoca",
-    "Bical",
-    "Branco Especial",
-    "Branco Guimarães",
-    "Caramela",
-    "Carrega Branco",
-    "Cercial",
-    "Chasselas",
-    "Côdega de Larinho",
-    "Diagalves",
-    "Dona Branca",
-    "Donzelinho Branco",
-    "Estreito Macio",
-    "Fernão Pires (Maria Gomes)",
-    "Folgasão",
-    "Gouveio",
-    "Gouveio Estimado",
-    "Gouveio Real",
-    "Jampal",
-    "Malvasia Fina",
-    "Malvasia Parda",
-    "Malvasia Rei",
-    "Moscadet",
-    "Moscatel Galego Branco",
-    "Mourisco Branco",
-    "Pé Comprido",
-    "Pinheira Branca",
-    "Praça",
-    "Rabigato",
-    "Rabigato Franco",
-    "Rabigato Moreno",
-    "Rabo de Ovelha",
-    "Ratinho",
-    "Samarrinho",
-    "Sarigo",
-    "Semillon",
-    "Sercial (Esgana Cão)",
-    "Síria (Roupeiro)",
-    "Tália",
-    "Tamarez",
-    "Terrantez",
-    "Touriga Branca",
-    "Trigueira",
-    "Valente",
-    "Verdial Branco",
-    "Viosinho",
-    "Vital"
-  ];
-
   List<String> setName = [];
   List listItem = [];
   List listSlug = [];
@@ -462,7 +339,7 @@ class _SendObsState extends State<SendObs> {
                         Container(
                           padding: const EdgeInsets.only(top: 10),
                           child: Text(
-                              AppLocalizations.of(context).send_obs,
+                            AppLocalizations.of(context).send_obs,
                             style: const TextStyle(
                               fontSize: 20,
                               color: Color(0xFF346cb0),
@@ -476,7 +353,7 @@ class _SendObsState extends State<SendObs> {
                         buildTitlePheno(),
                         const SizedBox(height: 25),
                         Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(top: 16),
@@ -500,30 +377,30 @@ class _SendObsState extends State<SendObs> {
                                     child: InkWell(
                                       onTap: () async {
 
-                                          if(nrImages<6){
-                                            final files = await imageHelper.pickImageCamera();
-                                            tempImageFile = files.map((e) => File(e.path)).toList();
+                                        if(nrImages<6){
+                                          final files = await imageHelper.pickImageCamera();
+                                          tempImageFile = files.map((e) => File(e.path)).toList();
 
-                                            if (tempImageFile.isNotEmpty) {
-                                                for (var i = 0; i < tempImageFile.length; i++) {
-                                                  if (nrImages<6){
-                                                    imageFile.add(File(tempImageFile[i].path));
-                                                    imageFilePath.add(tempImageFile[i].path);
-                                                    setState(() {
-                                                      nrImages++;
-                                                    },
-                                                  );
-                                                } else {
-                                                    ScaffoldMessenger.of(context).showSnackBar(
-                                                      SnackBar(
-                                                        content: Text(AppLocalizations.of(context).too_many_images,),
-                                                      ),
-                                                    );
-                                                  }
-
+                                          if (tempImageFile.isNotEmpty) {
+                                            for (var i = 0; i < tempImageFile.length; i++) {
+                                              if (nrImages<6){
+                                                imageFile.add(File(tempImageFile[i].path));
+                                                imageFilePath.add(tempImageFile[i].path);
+                                                setState(() {
+                                                  nrImages++;
+                                                },
+                                                );
+                                              } else {
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(AppLocalizations.of(context).too_many_images,),
+                                                  ),
+                                                );
                                               }
+
                                             }
                                           }
+                                        }
                                       },
                                       child: Center(
                                         child: Padding(
@@ -841,7 +718,7 @@ class _SendObsState extends State<SendObs> {
                                               _keepObsSuccess(context);
                                             } else {
                                               _noImageError(context);}
-                                            } else {
+                                          } else {
                                             _noServiceError(context);
                                           }
 
@@ -1189,57 +1066,6 @@ class _SendObsState extends State<SendObs> {
     );
   }
 
-  Widget buildTitleCasta() {
-    return Visibility(
-      visible: isPheno,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            margin: const EdgeInsets.only(left: 15.0),
-            child: Text(
-              AppLocalizations.of(context).obs_title,
-              style: const TextStyle(
-                  color: Color(0xFF346cb0),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          Container(
-            padding: const EdgeInsets.fromLTRB(12.0, 10.0, 12.0, 10.0),
-            child: ButtonTheme(
-              alignedDropdown: true,
-              child: DropdownButton<String>(
-                hint: Text(AppLocalizations.of(context).obs_title_hint),
-                elevation: 16,
-                isExpanded: true,
-                style:
-                const TextStyle(color: Colors.black, fontSize: 16.0),
-                onChanged: (String? changedValue) {
-                  my_services = changedValue;
-                  setTitleController = my_services;
-                  setState(() {
-                    my_services;
-                    _onclicked(my_services);
-                  });
-                },
-                value: my_services,
-                items: setName.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: new Text(value),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget buildDescription() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1349,8 +1175,8 @@ class _SendObsState extends State<SendObs> {
                 });
               }
             },children: const [
-            Icon(Icons.lock_outline,),
-            Icon(Icons.lock_open_outlined)],
+              Icon(Icons.lock_outline,),
+              Icon(Icons.lock_open_outlined)],
           ),
         ),
       ],

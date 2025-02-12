@@ -26,9 +26,8 @@ class HomeDrawer extends StatefulWidget {
 }
 
 class _HomeDrawerState extends State<HomeDrawer> {
-  List<DrawerList>? drawerList;
 
-  //objectbox
+  List<DrawerList>? drawerList;
   String nome = "";
   String image = "";
   String email = "";
@@ -40,7 +39,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
   List<String> userGroupsName = [];
   List<String> userGroupsSlug = [];
 
-
+  /// Read and write from Objectbox database
   void putUser() async {
     await objectbox.addUser(nome,email,username,image,nrObs,subsSlugs,_slugs,userGroupsName,userGroupsSlug);
   }
@@ -184,7 +183,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
         icon: const Icon(Icons.share),
       ),
        */
-
       DrawerList(
         index: DrawerIndex.About,
         labelName: AppLocalizations.of(context).privacy,
@@ -269,8 +267,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
               },
             ),
           ),
-
-
 
           Divider(
             height: 1,

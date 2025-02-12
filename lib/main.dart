@@ -44,13 +44,8 @@ class _MyAppState extends State<MyApp> {
   String _bandeira ="";
   late bool _authed=false;
 
-  void setLocale(Locale locale) async{
 
-    setState(() {
-      _locale = locale;
-    });
-  }
-
+  /// Auth check
   void isAuthed() async {
 
     var token = await TokenStorage.readSecureData("logged");
@@ -66,6 +61,13 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  /// Language Selection
+  void setLocale(Locale locale) async{
+
+     setState(() {
+        _locale = locale;
+      });
+     }
   void selectedLanguage(String codigopais)  {
     String linguaSel;
     String bandeira;
@@ -93,7 +95,6 @@ class _MyAppState extends State<MyApp> {
 
 
   }
-
   void whatLanguage() async {
     String linguaSel;
     String bandeira;
@@ -139,25 +140,6 @@ class _MyAppState extends State<MyApp> {
     isAuthed();
     whatLanguage();
   }
-
-  void _changeLanguage(Language language) {
-    Locale _temp;
-    switch(language.languageCode){
-      case 'pt':
-        _temp = Locale(language.languageCode, 'PT');
-        break;
-      case 'en':
-        _temp = Locale(language.languageCode, 'GB');
-        break;
-      case 'es':
-        _temp = Locale(language.languageCode, 'ES');
-        break;
-      default:
-        _temp = Locale(language.languageCode, 'PT');
-    }
-    MyApp.setLocale(context, _temp);
-  }
-
 
   @override
   Widget build(BuildContext context) {
