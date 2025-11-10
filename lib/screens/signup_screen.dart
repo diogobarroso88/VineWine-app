@@ -61,14 +61,14 @@ class _SignUpState extends State<SignUp> {
                       right: 50,
                       bottom: 10,
                     ),
-                    child: Image.asset('assets/images/IVDP_logo.png'),
+                    child: Image.asset('assets/images/logo_login.png'),
                   ),
                   Container(
                     padding: const EdgeInsets.only(top: 50),
                     child: Text(
                       AppLocalizations
                           .of(context)
-                          !.sign_up,
+                          .sign_up,
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -118,7 +118,7 @@ class _SignUpState extends State<SignUp> {
                                         SnackBar(
                                           content: Text(AppLocalizations
                                               .of(context)
-                                              !.snack_error),
+                                              .snack_error),
                                         ),
                                       );
                                     }
@@ -137,7 +137,7 @@ class _SignUpState extends State<SignUp> {
                                 child: Text(
                                   AppLocalizations
                                       .of(context)
-                                      !.sign_up,
+                                      .sign_up,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white,
@@ -193,7 +193,7 @@ class _SignUpState extends State<SignUp> {
                       !input!.contains("@")
                           ? AppLocalizations
                           .of(context)
-                          !.bad_email
+                          .bad_email
                           : null,
                       maxLines: 1,
                       maxLength: 100,
@@ -215,7 +215,7 @@ class _SignUpState extends State<SignUp> {
                           counterText: '',
                           hintText: AppLocalizations
                               .of(context)
-                              !.email),
+                              .email),
 
                     ),
                     TextFormField(
@@ -224,7 +224,7 @@ class _SignUpState extends State<SignUp> {
                       input!.isEmpty
                           ? AppLocalizations
                           .of(context)
-                          !.register_name
+                          .register_name
                           : null,
                       maxLines: 1,
                       maxLength: 100,
@@ -247,7 +247,7 @@ class _SignUpState extends State<SignUp> {
                           counterText: '',
                           hintText: AppLocalizations
                               .of(context)
-                              !.name),
+                              .name),
                     ),
                     TextFormField(
                       keyboardType: TextInputType.text,
@@ -255,7 +255,7 @@ class _SignUpState extends State<SignUp> {
                       input!.isEmpty
                           ? AppLocalizations
                           .of(context)
-                          !.register_username
+                          .register_username
                           : null,
                       maxLines: 1,
                       maxLength: 100,
@@ -278,7 +278,7 @@ class _SignUpState extends State<SignUp> {
                           counterText: '',
                           hintText: AppLocalizations
                               .of(context)
-                              !.username),
+                              .username),
                     ),
                     TextFormField(
                       obscureText: hidePassword,
@@ -287,7 +287,7 @@ class _SignUpState extends State<SignUp> {
                       input!.isEmpty
                           ? AppLocalizations
                           .of(context)
-                          !.bad_password
+                          .bad_password
                           : null,
                       maxLines: 1,
                       maxLength: 100,
@@ -323,7 +323,7 @@ class _SignUpState extends State<SignUp> {
                           counterText: '',
                           hintText: AppLocalizations
                               .of(context)
-                              !.password),
+                              .password),
                     ),
                   ]),
 
@@ -346,7 +346,7 @@ class _SignUpState extends State<SignUp> {
               TextSpan(
                 text: AppLocalizations
                     .of(context)
-                    !.back_to,
+                    .back_to,
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 13, fontWeight: FontWeight.w600,
@@ -355,7 +355,7 @@ class _SignUpState extends State<SignUp> {
               TextSpan(
                   text: AppLocalizations
                       .of(context)
-                      !.login_page,
+                      .login_page,
                   style: const TextStyle(
                       color: Color(0xfff79c4f),
                       fontSize: 13,
@@ -372,12 +372,12 @@ class _SignUpState extends State<SignUp> {
     Alert(
       context: globalFormKey!.currentContext!,
       type: AlertType.success,
-      title:  AppLocalizations.of(context)!.success,
-      desc: AppLocalizations.of(context)!.check_email,
+      title:  AppLocalizations.of(context).success,
+      desc: AppLocalizations.of(context).check_email,
       buttons: [
         DialogButton(
           child: Text(
-            AppLocalizations.of(context)!.ok,
+            AppLocalizations.of(context).ok,
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () async {
@@ -393,12 +393,12 @@ class _SignUpState extends State<SignUp> {
     Alert(
       context: globalFormKey!.currentContext!,
       type: AlertType.error,
-      title:  AppLocalizations.of(context)!.error,
-      desc: AppLocalizations.of(context)!.double_acc,
+      title:  AppLocalizations.of(context).error,
+      desc: AppLocalizations.of(context).double_acc,
       buttons: [
         DialogButton(
           child: Text(
-            AppLocalizations.of(context)!.ok,
+            AppLocalizations.of(context).ok,
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
@@ -413,12 +413,12 @@ class _SignUpState extends State<SignUp> {
     Alert(
       context: globalFormKey!.currentContext!,
       type: AlertType.info,
-      title: AppLocalizations.of(context)!.no_connection,
-      desc: AppLocalizations.of(context)!.check_connection,
+      title: AppLocalizations.of(context).no_connection,
+      desc: AppLocalizations.of(context).check_connection,
       buttons: [
         DialogButton(
           child: Text(
-            AppLocalizations.of(context)!.ok,
+            AppLocalizations.of(context).ok,
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () => Navigator.of(context,rootNavigator: true).pop(),

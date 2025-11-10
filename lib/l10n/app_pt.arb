@@ -42,7 +42,7 @@
   "description" : "Descrição",
   "description_hint" : "Resumo do problema e questões a colocar",
   "private" : "Privado",
-  "public" : "Publico",
+  "public" : "Public",
   "geocode" : "Geocode",
   "optional" : "(Opcional)",
   "edit_obs" : "Editar observação",
@@ -98,9 +98,5 @@
   "titleM" : "M - Pintor",
   "titleN" : "N - Maturação",
   "titleO" : "O - Atempamento da Vara",
-  "titleP" : "P - Queda de Folhas",
-  "no_title" : "Adicione um titulo válido!",
-  "no_coord" : "Coordenadas GPS não válidas!",
-  "coord_confirm" : "Por favor, tente novamente.",
-  "send_obs_art" : "Identificação de doenças da videira"
+  "titleP" : "P - Queda de Folhas"
 }

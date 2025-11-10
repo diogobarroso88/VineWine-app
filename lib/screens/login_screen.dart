@@ -159,12 +159,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         right: 50,
                         bottom: 10,
                       ),
-                      child: Image.asset('assets/images/IVDP_logo.png'),
+                      child: Image.asset('assets/images/logo_login.png'),
                     ),
                     Container(
                       padding: const EdgeInsets.only(top: 50),
                       child: Text(
-                        AppLocalizations.of(context)!.init_sess,
+                        AppLocalizations.of(context).init_sess,
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -213,7 +213,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           Navigator.of(context).pop();
                                           ScaffoldMessenger.of(context).showSnackBar(
                                             SnackBar(
-                                              content: Text(AppLocalizations.of(context)!.wrong_emailPass,),
+                                              content: Text(AppLocalizations.of(context).wrong_emailPass,),
                                             ),
                                           );
                                         } else {
@@ -249,7 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(4.0),
                                   child: Text(
-                                    AppLocalizations.of(context)!.button1,
+                                    AppLocalizations.of(context).button1,
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                       color: Colors.white,
@@ -314,7 +314,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       keyboardType: TextInputType.emailAddress,
                       validator: (input) =>
                       !input!.contains("@")
-                          ? AppLocalizations.of(context)!.bad_email
+                          ? AppLocalizations.of(context).bad_email
                           : null,
                       maxLines: 1,
                       maxLength: 100,
@@ -334,7 +334,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           border: InputBorder.none,
                           counterText: '',
-                          hintText: AppLocalizations.of(context)!.email,
+                          hintText: AppLocalizations.of(context).email,
 
                     )),
                     TextFormField(
@@ -342,7 +342,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       keyboardType: TextInputType.text,
                       validator: (input) =>
                       input!.isEmpty
-                          ? AppLocalizations.of(context)!.bad_password
+                          ? AppLocalizations.of(context).bad_password
                           : null,
                       maxLines: 1,
                       maxLength: 100,
@@ -376,7 +376,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           border: InputBorder.none,
                           counterText: '',
-                          hintText: AppLocalizations.of(context)!.password,
+                          hintText: AppLocalizations.of(context).password,
                     )),
                   ]),
 
@@ -438,14 +438,14 @@ class _LoginScreenState extends State<LoginScreen> {
         text: TextSpan(
             children: [
               TextSpan(
-                text: AppLocalizations.of(context)!.no_account,
+                text: AppLocalizations.of(context).no_account,
                 style: const TextStyle(
                   color : Colors.black,
                   fontSize: 13, fontWeight: FontWeight.w600,
                 ),
               ),
               TextSpan(
-                  text: AppLocalizations.of(context)!.button2,
+                  text: AppLocalizations.of(context).button2,
                   style: const TextStyle(
                       color: Color(0xfff79c4f),
                       fontSize: 13,
@@ -462,14 +462,14 @@ class _LoginScreenState extends State<LoginScreen> {
     Alert(
       context: globalFormKey!.currentContext!,
       type: AlertType.info,
-      title: AppLocalizations.of(context)!.no_connection,
-      desc: AppLocalizations.of(context)!.check_connection,
+      title: AppLocalizations.of(context).no_connection,
+      desc: AppLocalizations.of(context).check_connection,
       buttons: [
         DialogButton(
           onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
           width: 120,
           child: Text(
-            AppLocalizations.of(context)!.ok,
+            AppLocalizations.of(context).ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )

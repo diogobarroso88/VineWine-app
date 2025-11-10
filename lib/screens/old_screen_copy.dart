@@ -339,7 +339,7 @@ class _SendObsState extends State<SendObs> {
                         Container(
                           padding: const EdgeInsets.only(top: 10),
                           child: Text(
-                            AppLocalizations.of(context)!.send_obs,
+                            AppLocalizations.of(context).send_obs,
                             style: const TextStyle(
                               fontSize: 20,
                               color: Color(0xFF346cb0),
@@ -393,7 +393,7 @@ class _SendObsState extends State<SendObs> {
                                               } else {
                                                 ScaffoldMessenger.of(context).showSnackBar(
                                                   SnackBar(
-                                                    content: Text(AppLocalizations.of(context)!.too_many_images,),
+                                                    content: Text(AppLocalizations.of(context).too_many_images,),
                                                   ),
                                                 );
                                               }
@@ -406,7 +406,7 @@ class _SendObsState extends State<SendObs> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: Text(
-                                            AppLocalizations.of(context)!.camera,
+                                            AppLocalizations.of(context).camera,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w500,
                                               color: Colors.white,
@@ -457,7 +457,7 @@ class _SendObsState extends State<SendObs> {
                                               } else {
                                                 ScaffoldMessenger.of(context).showSnackBar(
                                                   SnackBar(
-                                                    content: Text(AppLocalizations.of(context)!.too_many_images,),
+                                                    content: Text(AppLocalizations.of(context).too_many_images,),
                                                   ),
                                                 );
                                               }
@@ -470,7 +470,7 @@ class _SendObsState extends State<SendObs> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: Text(
-                                            AppLocalizations.of(context)!.load_pics,
+                                            AppLocalizations.of(context).load_pics,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w500,
                                               color: Colors.white,
@@ -728,7 +728,7 @@ class _SendObsState extends State<SendObs> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: Text(
-                                            AppLocalizations.of(context)!.save,
+                                            AppLocalizations.of(context).save,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w500,
                                               color: Colors.white,
@@ -825,7 +825,7 @@ class _SendObsState extends State<SendObs> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: Text(
-                                            AppLocalizations.of(context)!.send,
+                                            AppLocalizations.of(context).send,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w500,
                                               color: Colors.white,
@@ -862,7 +862,7 @@ class _SendObsState extends State<SendObs> {
           Container(
             margin: const EdgeInsets.only(left: 15.0),
             child: Text(
-              AppLocalizations.of(context)!.obs_service,
+              AppLocalizations.of(context).obs_service,
               style: const TextStyle(
                   color: Color(0xFF346cb0),
                   fontSize: 16,
@@ -876,7 +876,7 @@ class _SendObsState extends State<SendObs> {
             child: ButtonTheme(
               alignedDropdown: true,
               child: DropdownButton(
-                hint: slugs.isEmpty ? Text(AppLocalizations.of(context)!.no_slugs) : Text(AppLocalizations.of(context)!.choose_service,),
+                hint: slugs.isEmpty ? Text(AppLocalizations.of(context).no_slugs) : Text(AppLocalizations.of(context).choose_service,),
                 isExpanded: true,
                 onChanged: (newValue) {
 
@@ -918,7 +918,7 @@ class _SendObsState extends State<SendObs> {
           Container(
             margin: const EdgeInsets.only(left: 15.0),
             child: Text(
-              AppLocalizations.of(context)!.userGroup_esc,
+              AppLocalizations.of(context).userGroup_esc,
               style: const TextStyle(
                   color: Color(0xFF346cb0),
                   fontSize: 16,
@@ -932,7 +932,7 @@ class _SendObsState extends State<SendObs> {
             child: ButtonTheme(
               alignedDropdown: true,
               child: DropdownButton(
-                hint: userGroups.isEmpty ? Text(AppLocalizations.of(context)!.no_slugs) : Text(AppLocalizations.of(context)!.choose_service,),
+                hint: userGroups.isEmpty ? Text(AppLocalizations.of(context).no_slugs) : Text(AppLocalizations.of(context).choose_service,),
                 isExpanded: true,
                 onChanged: (newValue) {
                   setState(() {
@@ -964,7 +964,7 @@ class _SendObsState extends State<SendObs> {
           Container(
             margin: const EdgeInsets.only(left: 15.0),
             child: Text(
-              AppLocalizations.of(context)!.obs_title,
+              AppLocalizations.of(context).obs_title,
               style: const TextStyle(
                   color: Color(0xFF346cb0),
                   fontSize: 16,
@@ -993,7 +993,7 @@ class _SendObsState extends State<SendObs> {
               keyboardType: TextInputType.text,
               validator: (input) =>
               input!.isEmpty
-                  ? AppLocalizations.of(context)!.obs_title_hint
+                  ? AppLocalizations.of(context).obs_title_hint
                   : null,
               onSaved: (String? value){
                 titleController = value!;
@@ -1003,7 +1003,7 @@ class _SendObsState extends State<SendObs> {
               ),
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: AppLocalizations.of(context)!.obs_title_hint,
+                hintText: AppLocalizations.of(context).obs_title_hint,
                 hintStyle: const TextStyle(
                     color: Colors.black38
                 ),
@@ -1024,7 +1024,7 @@ class _SendObsState extends State<SendObs> {
           Container(
             margin: const EdgeInsets.only(left: 15.0),
             child: Text(
-              AppLocalizations.of(context)!.obs_title,
+              AppLocalizations.of(context).obs_title,
               style: const TextStyle(
                   color: Color(0xFF346cb0),
                   fontSize: 16,
@@ -1038,7 +1038,7 @@ class _SendObsState extends State<SendObs> {
             child: ButtonTheme(
               alignedDropdown: true,
               child: DropdownButton<String>(
-                hint: Text(AppLocalizations.of(context)!.obs_title_hint),
+                hint: Text(AppLocalizations.of(context).obs_title_hint),
                 elevation: 16,
                 isExpanded: true,
                 style:
@@ -1073,7 +1073,7 @@ class _SendObsState extends State<SendObs> {
         Container(
           margin: const EdgeInsets.only(left: 15.0),
           child: Text(
-            AppLocalizations.of(context)!.description,
+            AppLocalizations.of(context).description,
             style: const TextStyle(
                 color: Color(0xFF346cb0),
                 fontSize: 16,
@@ -1109,7 +1109,7 @@ class _SendObsState extends State<SendObs> {
             ),
             decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: AppLocalizations.of(context)!.description_hint,
+              hintText: AppLocalizations.of(context).description_hint,
               hintStyle: const TextStyle(
                   color: Colors.black38
               ),
@@ -1129,7 +1129,7 @@ class _SendObsState extends State<SendObs> {
           Row( children: <Widget> [
             Container(
               child: Text(
-                AppLocalizations.of(context)!.private,
+                AppLocalizations.of(context).private,
                 style: const TextStyle(
                     color: Color(0xFF346cb0),
                     fontSize: 16,
@@ -1140,7 +1140,7 @@ class _SendObsState extends State<SendObs> {
             const SizedBox(width: 2),
             Container(
               child: Text(
-                AppLocalizations.of(context)!.public,
+                AppLocalizations.of(context).public,
                 style: const TextStyle(
                     color: Color(0xFF346cb0),
                     fontSize: 16,
@@ -1190,7 +1190,7 @@ class _SendObsState extends State<SendObs> {
         Container(
           margin: const EdgeInsets.only(left:12.0),
           child: Text(
-            AppLocalizations.of(context)!.geocode,
+            AppLocalizations.of(context).geocode,
             style: const TextStyle(
                 color: Color(0xFF346cb0),
                 fontSize: 16,
@@ -1226,7 +1226,7 @@ class _SendObsState extends State<SendObs> {
             ),
             decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: AppLocalizations.of(context)!.optional,
+              hintText: AppLocalizations.of(context).optional,
               hintStyle: const TextStyle(
                   color: Colors.black38
               ),
@@ -1317,8 +1317,8 @@ class _SendObsState extends State<SendObs> {
     Alert(
       context: globalFormKey.currentContext!,
       type: AlertType.success,
-      title: AppLocalizations.of(context)!.success,
-      desc: AppLocalizations.of(context)!.obs_send,
+      title: AppLocalizations.of(context).success,
+      desc: AppLocalizations.of(context).obs_send,
       buttons: [
         DialogButton(
           onPressed: () async {
@@ -1326,7 +1326,7 @@ class _SendObsState extends State<SendObs> {
           },
           width: 120,
           child: Text(
-            AppLocalizations.of(context)!.ok,
+            AppLocalizations.of(context).ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
@@ -1338,8 +1338,8 @@ class _SendObsState extends State<SendObs> {
     Alert(
       context: globalFormKey.currentContext!,
       type: AlertType.success,
-      title:  AppLocalizations.of(context)!.success,
-      desc: AppLocalizations.of(context)!.saved_obs,
+      title:  AppLocalizations.of(context).success,
+      desc: AppLocalizations.of(context).saved_obs,
       buttons: [
         DialogButton(
           onPressed: () async {
@@ -1348,7 +1348,7 @@ class _SendObsState extends State<SendObs> {
 
           width: 120,
           child: Text(
-            AppLocalizations.of(context)!.ok,
+            AppLocalizations.of(context).ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
@@ -1360,14 +1360,14 @@ class _SendObsState extends State<SendObs> {
     Alert(
       context: globalFormKey.currentContext!,
       type: AlertType.error,
-      title: AppLocalizations.of(context)!.error,
-      desc: AppLocalizations.of(context)!.err_send_obs,
+      title: AppLocalizations.of(context).error,
+      desc: AppLocalizations.of(context).err_send_obs,
       buttons: [
         DialogButton(
           onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
           width: 120,
           child: Text(
-            AppLocalizations.of(context)!.ok,
+            AppLocalizations.of(context).ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
@@ -1379,14 +1379,14 @@ class _SendObsState extends State<SendObs> {
     Alert(
       context: globalFormKey.currentContext!,
       type: AlertType.warning,
-      title: AppLocalizations.of(context)!.alert,
-      desc: AppLocalizations.of(context)!.no_image,
+      title: AppLocalizations.of(context).alert,
+      desc: AppLocalizations.of(context).no_image,
       buttons: [
         DialogButton(
           onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
           width: 120,
           child: Text(
-            AppLocalizations.of(context)!.ok,
+            AppLocalizations.of(context).ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
@@ -1398,14 +1398,14 @@ class _SendObsState extends State<SendObs> {
     Alert(
       context: globalFormKey.currentContext!,
       type: AlertType.warning,
-      title: AppLocalizations.of(context)!.alert,
-      desc: AppLocalizations.of(context)!.choose_service,
+      title: AppLocalizations.of(context).alert,
+      desc: AppLocalizations.of(context).choose_service,
       buttons: [
         DialogButton(
           onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
           width: 120,
           child: Text(
-            AppLocalizations.of(context)!.ok,
+            AppLocalizations.of(context).ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
@@ -1417,14 +1417,14 @@ class _SendObsState extends State<SendObs> {
     Alert(
       context: globalFormKey.currentContext!,
       type: AlertType.info,
-      title: AppLocalizations.of(context)!.no_connection,
-      desc: AppLocalizations.of(context)!.check_connection,
+      title: AppLocalizations.of(context).no_connection,
+      desc: AppLocalizations.of(context).check_connection,
       buttons: [
         DialogButton(
           onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
           width: 120,
           child: Text(
-            AppLocalizations.of(context)!.ok,
+            AppLocalizations.of(context).ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )

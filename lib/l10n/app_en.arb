@@ -98,9 +98,5 @@
   "titleM" : "M - Pintor",
   "titleN" : "N - Maturação",
   "titleO" : "O - Atempamento da Vara",
-  "titleP" : "P - Queda de Folhas",
-  "no_title" : "Adicione um titulo válido!",
-  "no_coord" : "Invalid GPS coordinates!",
-  "coord_confirm" : "Please try again.",
-  "send_obs_art" : "Vine Pest Detection"
+  "titleP" : "P - Queda de Folhas"
 }

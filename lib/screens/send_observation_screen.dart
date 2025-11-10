@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:flutter/gestures.dart';
-import 'package:vinewineapp/models/castas_list.dart';
 import '../APIservices/apiservice.dart';
 import '../main.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,8 +16,6 @@ import '../models/image_helper.dart';
 
 
 class SendObs extends StatefulWidget {
-
-
 
   @override
   _SendObsState createState() => _SendObsState();
@@ -46,10 +42,10 @@ class _SendObsState extends State<SendObs> {
 
   late Future locationMap;
 
-  late String titleController="";
-  late String setTitleController="";
-  late String descriptionController="";
-  late String geocodeController="";
+  late String titleController;
+  late String setTitleController;
+  late String descriptionController;
+  late String geocodeController;
   late String userGroupController="";
   late String slugChoose = "" ;
   late String titleChoose = "";
@@ -57,23 +53,193 @@ class _SendObsState extends State<SendObs> {
   late double latitude;
   late double longitude;
 
+  List<String> setNamePT = [
+    "A - Gomo de Inverno",
+    "B - Gomo de Algodão",
+    "C - Ponta Verde",
+    "D - Saída de Folhas",
+    "E - Folhas Livres",
+    "F - Cachos Visíveis",
+    "G - Cachos Separados",
+    "H - Botões Florais Separados",
+    "I - Floração",
+    "J - Alimpa",
+    "K - Bago de Ervilha",
+    "L - Cacho Fechado",
+    "M - Pintor",
+    "N - Maturação",
+    "O - Atempamento da Vara",
+    "P - Queda de Folhas"
+  ];
 
+  List<String> setNameES = [
+    "A - Gomo de Inverno",
+    "B - Gomo de Algodão",
+    "C - Ponta Verde",
+    "D - Saída de Folhas",
+    "E - Folhas Livres",
+    "F - Cachos Visíveis",
+    "G - Cachos Separados",
+    "H - Botões Florais Separados",
+    "I - Floração",
+    "J - Alimpa",
+    "K - Bago de Ervilha",
+    "L - Cacho Fechado",
+    "M - Pintor",
+    "N - Maturação",
+    "O - Atempamento da Vara",
+    "P - Queda de Folhas"
+  ];
 
+  List<String> setNameEN = [
+    "A - Winter Bud",
+    "B - Woolly Bud",
+    "C - Bud Break",
+    "D - Leaf Emergence",
+    "E - Leaves Separated",
+    "F - Inflorescences Visible",
+    "G - Inflorescences Separated",
+    "H - Flowers Separated",
+    "I - Bloom",
+    "J - Fruit Set",
+    "K - Pea Berries Size",
+    "L - Berries Touching",
+    "M - Veraison",
+    "N - Maturity",
+    "O - Cane Maturation",
+    "P - Leaf Fall"
+  ];
+
+  List<String> setNameTintosPT = [
+    "Alicante Bouschet",
+    "Alvarelhão",
+    "Alvarelhão Ceitão",
+    "Aragonez (Tinta Roriz)",
+    "Aramon",
+    "Baga",
+    "Barca",
+    "Barreto",
+    "Barreto",
+    "Bragão",
+    "Camarate",
+    "Carignan",
+    "Casculho",
+    "Castelã",
+    "Castelão",
+    "Cidadelhe",
+    "Concieira",
+    "Cornifesto",
+    "Corropio",
+    "Donzelinho Tinto",
+    "Engomada",
+    "Espadeiro",
+    "Gonçalo Pires",
+    "Grand Noir",
+    "Grangeal",
+    "Jaen",
+    "Lourela",
+    "Malandra",
+    "Malvasia Preta",
+    "Marufo",
+    "Melra",
+    "Mondet",
+    "Mourisco de Semente",
+    "Nevoeira",
+    "Patorra",
+    "Petit Bouschet",
+    "Pinot Noir",
+    "Português Azul",
+    "Preto Martinho",
+    "Ricoca",
+    "Roseira",
+    "Rufete",
+    "Santareno",
+    "São Saúl",
+    "Sevilhão",
+    "Sousão",
+    "Tinta Aguiar",
+    "Tinta Barroca",
+    "Tinta Carvalha",
+    "Tinta Fontes",
+    "Tinta Francisca",
+    "Tinta Lameira",
+    "Tinta Martins",
+    "Tinta Mesquita",
+    "Tinta Penajóia",
+    "Tinta Pereira",
+    "Tinta Pomar",
+    "Tinta Tabuaço",
+    "Tinto Cão",
+    "Tinto Sem Nome",
+    "Touriga Fêmea",
+    "Touriga Franca",
+    "Touriga Nacional",
+    "Trincadeira",
+    "Valdosa",
+    "Varejoa"
+  ];
+
+  List<String> setListBrancosPT = [
+    "Alicante Branco",
+    "Alvarelhão Branco",
+    "Arinto (Pedernã)",
+    "Avesso",
+    "Batoca",
+    "Bical",
+    "Branco Especial",
+    "Branco Guimarães",
+    "Caramela",
+    "Carrega Branco",
+    "Cercial",
+    "Chasselas",
+    "Côdega de Larinho",
+    "Diagalves",
+    "Dona Branca",
+    "Donzelinho Branco",
+    "Estreito Macio",
+    "Fernão Pires (Maria Gomes)",
+    "Folgasão",
+    "Gouveio",
+    "Gouveio Estimado",
+    "Gouveio Real",
+    "Jampal",
+    "Malvasia Fina",
+    "Malvasia Parda",
+    "Malvasia Rei",
+    "Moscadet",
+    "Moscatel Galego Branco",
+    "Mourisco Branco",
+    "Pé Comprido",
+    "Pinheira Branca",
+    "Praça",
+    "Rabigato",
+    "Rabigato Franco",
+    "Rabigato Moreno",
+    "Rabo de Ovelha",
+    "Ratinho",
+    "Samarrinho",
+    "Sarigo",
+    "Semillon",
+    "Sercial (Esgana Cão)",
+    "Síria (Roupeiro)",
+    "Tália",
+    "Tamarez",
+    "Terrantez",
+    "Touriga Branca",
+    "Trigueira",
+    "Valente",
+    "Verdial Branco",
+    "Viosinho",
+    "Vital"
+  ];
 
   List<String> setName = [];
   List listItem = [];
   List listSlug = [];
   List listUserGroupName = [];
   List listUserGroupId = [];
-  List<bool> tintobranco = [true,false];
   Map slugs = {};
   Map userGroups = {};
-  //String userGroup = ("cHgxlASbYYOdK2dv");
-  String userGroup = ("");
-  String demandingSlug = ("vine-pest-detection");
-
-
-
 
   ///Image Picker
   final imageHelper = ImageHelper();
@@ -107,6 +273,23 @@ class _SendObsState extends State<SendObs> {
       });
     }
   }
+
+  ///Checking Language to present different titles choices in a specific slug
+  Future whatLang() async {
+    var languageSelected = await TokenStorage.readSecureData("lingua");
+    print(languageSelected);
+    if (languageSelected == "pt"){
+      setName.clear();
+      setName = setNamePT;
+    } else if (languageSelected == "es"){
+      setName.clear();
+      setName = setNameES;
+    } else if (languageSelected == "en"){
+      setName.clear();
+      setName = setNameEN;
+    }
+  }
+
 
 
   ///GPS Location and Map
@@ -150,18 +333,6 @@ class _SendObsState extends State<SendObs> {
     return coordenadas;
   }
 
-
-  InputDecoration myTextFieldDecoration({
-    String hintText = "",
-    }) {
-    return InputDecoration(
-      border: InputBorder.none,
-      hintText: hintText,
-
-      );
-  }
-
-
   ///Save, read and delete observations from database
   void readAll() async {
 
@@ -176,6 +347,7 @@ class _SendObsState extends State<SendObs> {
           listUserGroupName = list[i]["UserGroups"];
           listUserGroupId = list[i]["UserGroupsSlug"];
         });
+        print(listItem.length);
 
         for (int j=0; j<listItem.length; j++) {
 
@@ -218,8 +390,8 @@ class _SendObsState extends State<SendObs> {
 
   void keepObservation() async {
     String _emailController = await TokenStorage.readSecureData("authed");
-
-    await objectbox.addObservation(titleController, descriptionController, geocodeController, public, demandingSlug, longitude, latitude,  imageFilePath, _emailController, slugChoose, userGroup);
+    print(imageFilePath);
+    await objectbox.addObservation(titleController, descriptionController, geocodeController, public, slugs[slugChoose], longitude, latitude,  imageFilePath, _emailController, slugChoose, userGroups[userGroupChoose]);
   }
 
   void readObservations() async {
@@ -242,6 +414,7 @@ class _SendObsState extends State<SendObs> {
   @override
   void initState() {
     super.initState();
+    whatLang();
     readAll();
     locationMap = _determinePosition();
     isItOnline();
@@ -289,7 +462,7 @@ class _SendObsState extends State<SendObs> {
                         Container(
                           padding: const EdgeInsets.only(top: 10),
                           child: Text(
-                              AppLocalizations.of(context)!.send_obs_art,
+                              AppLocalizations.of(context).send_obs,
                             style: const TextStyle(
                               fontSize: 20,
                               color: Color(0xFF346cb0),
@@ -297,8 +470,10 @@ class _SendObsState extends State<SendObs> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 35),
+                        const SizedBox(height: 25),
+
                         buildTitle(),
+                        buildTitlePheno(),
                         const SizedBox(height: 25),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -324,7 +499,7 @@ class _SendObsState extends State<SendObs> {
                                     color: Colors.transparent,
                                     child: InkWell(
                                       onTap: () async {
-                                        print(nrImages);
+
                                           if(nrImages<6){
                                             final files = await imageHelper.pickImageCamera();
                                             tempImageFile = files.map((e) => File(e.path)).toList();
@@ -341,7 +516,7 @@ class _SendObsState extends State<SendObs> {
                                                 } else {
                                                     ScaffoldMessenger.of(context).showSnackBar(
                                                       SnackBar(
-                                                        content: Text(AppLocalizations.of(context)!.too_many_images,),
+                                                        content: Text(AppLocalizations.of(context).too_many_images,),
                                                       ),
                                                     );
                                                   }
@@ -354,7 +529,7 @@ class _SendObsState extends State<SendObs> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: Text(
-                                            AppLocalizations.of(context)!.camera,
+                                            AppLocalizations.of(context).camera,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w500,
                                               color: Colors.white,
@@ -388,7 +563,7 @@ class _SendObsState extends State<SendObs> {
                                     color: Colors.transparent,
                                     child: InkWell(
                                       onTap: () async {
-                                        print(nrImages);
+
                                         if(nrImages<6){
                                           final files = await imageHelper.pickImageGallery(multiple: true);
                                           tempImageFile = files.map((e) => File(e.path)).toList();
@@ -405,10 +580,11 @@ class _SendObsState extends State<SendObs> {
                                               } else {
                                                 ScaffoldMessenger.of(context).showSnackBar(
                                                   SnackBar(
-                                                    content: Text(AppLocalizations.of(context)!.too_many_images,),
+                                                    content: Text(AppLocalizations.of(context).too_many_images,),
                                                   ),
                                                 );
                                               }
+
                                             }
                                           }
                                         }
@@ -417,7 +593,7 @@ class _SendObsState extends State<SendObs> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: Text(
-                                            AppLocalizations.of(context)!.load_pics,
+                                            AppLocalizations.of(context).load_pics,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w500,
                                               color: Colors.white,
@@ -442,33 +618,25 @@ class _SendObsState extends State<SendObs> {
                                 nrImages == 0
                                     ? null
                                     : Stack(
-                                      children: [
-                                          Image.file(
-                                            imageFile[0],
-                                            fit: BoxFit.fill,
-                                            height: 95,
-                                            width: 95),
-                                          Positioned(
-                                            top: -12,
-                                            right: -12,
-                                            child: IconButton(
-                                                icon: Container(
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.black.withOpacity(0.5), // Cor de fundo opcional
-                                                    shape: BoxShape.rectangle,
-                                                    borderRadius: BorderRadius.circular(0), // Sem bordas arredondadas
-                                                  ),
-                                                  padding: EdgeInsets.all(0.1), // Espaçamento interno
-                                                  child: const Icon(
-                                                    Icons.close_rounded,
-                                                    color: Colors.white,
-                                                    size: 25,
-                                                  ),
-                                                ),
-                                              onPressed: () {
-                                              _clearCachedFiles(0);
-                                              },
-                                            )
+                                  children: [
+                                    Image.file(
+                                        imageFile[0],
+                                        fit: BoxFit.fill,
+                                        height: 95,
+                                        width: 95),
+                                    Positioned(
+                                        top: -12,
+                                        right: -12,
+                                        child: IconButton(
+                                          icon: const Icon(
+                                            Icons.close_rounded,
+                                            color: Colors.white,
+                                            size: 25,
+                                          ),
+                                          onPressed: () {
+                                            _clearCachedFiles(0);
+                                          },
+                                        )
                                     ),
                                   ],
                                 )
@@ -479,30 +647,22 @@ class _SendObsState extends State<SendObs> {
                                 nrImages <= 1
                                     ? null
                                     : Stack(
-                                      children: [
-                                        Image.file(
-                                          imageFile[1],
-                                          fit: BoxFit.fill,
-                                          height: 95,
-                                          width: 95),
-                                        Positioned(
-                                          top: -12,
-                                          right: -12,
-                                          child: IconButton(
-                                              icon: Container(
-                                                decoration: BoxDecoration(
-                                                  color: Colors.black.withOpacity(0.5), // Cor de fundo opcional
-                                                  shape: BoxShape.rectangle,
-                                                  borderRadius: BorderRadius.circular(0), // Sem bordas arredondadas
-                                                ),
-                                                padding: EdgeInsets.all(0.1),
-                                                child: const Icon(
-                                                  Icons.close_rounded,
-                                                  color: Colors.white,
-                                                  size: 25,
-                                                ),
-                                              ),
-                                            onPressed: () {
+                                  children: [
+                                    Image.file(
+                                        imageFile[1],
+                                        fit: BoxFit.fill,
+                                        height: 95,
+                                        width: 95),
+                                    Positioned(
+                                        top: -12,
+                                        right: -12,
+                                        child: IconButton(
+                                          icon: const Icon(
+                                            Icons.close_rounded,
+                                            color: Colors.white,
+                                            size: 25,
+                                          ),
+                                          onPressed: () {
                                             _clearCachedFiles(1);
                                           },
                                         )
@@ -516,31 +676,23 @@ class _SendObsState extends State<SendObs> {
                                 nrImages <= 2
                                     ? null
                                     : Stack(
-                                      children: [
-                                        Image.file(
-                                          imageFile[2],
-                                          fit: BoxFit.fill,
-                                          height: 95,
-                                          width: 95),
-                                        Positioned(
-                                          top: -12,
-                                          right: -12,
-                                          child: IconButton(
-                                            icon: Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.black.withOpacity(0.5), // Cor de fundo opcional
-                                                shape: BoxShape.rectangle,
-                                                borderRadius: BorderRadius.circular(0), // Sem bordas arredondadas
-                                              ),
-                                              padding: EdgeInsets.all(0.1),
-                                              child: const Icon(
-                                                Icons.close_rounded,
-                                                color: Colors.white,
-                                                size: 25,
-                                              ),
-                                            ),
-                                            onPressed: () {
-                                            _clearCachedFiles(2);
+                                  children: [
+                                    Image.file(
+                                        imageFile[2],
+                                        fit: BoxFit.fill,
+                                        height: 95,
+                                        width: 95),
+                                    Positioned(
+                                        top: -12,
+                                        right: -12,
+                                        child: IconButton(
+                                          icon: const Icon(
+                                            Icons.close_rounded,
+                                            color: Colors.white,
+                                            size: 25,
+                                          ),
+                                          onPressed: () {
+                                            _clearCachedFiles(3);
                                           },
                                         )
                                     ),
@@ -558,30 +710,22 @@ class _SendObsState extends State<SendObs> {
                                 nrImages <= 3
                                     ? null
                                     : Stack(
-                                      children: [
-                                        Image.file(
-                                          imageFile[3],
-                                          fit: BoxFit.fill,
-                                          height: 95,
-                                          width: 95),
-                                        Positioned(
-                                          top: -12,
-                                          right: -12,
-                                          child: IconButton(
-                                            icon: Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.black.withOpacity(0.5), // Cor de fundo opcional
-                                                shape: BoxShape.rectangle,
-                                                borderRadius: BorderRadius.circular(0), // Sem bordas arredondadas
-                                              ),
-                                              padding: EdgeInsets.all(0.1),
-                                              child: const Icon(
-                                                Icons.close_rounded,
-                                                color: Colors.white,
-                                                size: 25,
-                                              ),
-                                            ),
-                                            onPressed: () {
+                                  children: [
+                                    Image.file(
+                                        imageFile[3],
+                                        fit: BoxFit.fill,
+                                        height: 95,
+                                        width: 95),
+                                    Positioned(
+                                        top: -12,
+                                        right: -12,
+                                        child: IconButton(
+                                          icon: const Icon(
+                                            Icons.close_rounded,
+                                            color: Colors.white,
+                                            size: 25,
+                                          ),
+                                          onPressed: () {
                                             _clearCachedFiles(3);
                                           },
                                         )
@@ -595,30 +739,22 @@ class _SendObsState extends State<SendObs> {
                                 nrImages <= 4
                                     ? null
                                     : Stack(
-                                      children: [
-                                        Image.file(
-                                          imageFile[4],
-                                          fit: BoxFit.fill,
-                                          height: 95,
-                                          width: 95),
-                                        Positioned(
-                                          top: -12,
-                                          right: -12,
-                                          child: IconButton(
-                                            icon: Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.black.withOpacity(0.5), // Cor de fundo opcional
-                                                shape: BoxShape.rectangle,
-                                                borderRadius: BorderRadius.circular(0), // Sem bordas arredondadas
-                                              ),
-                                              padding: EdgeInsets.all(0.1),
-                                              child: const Icon(
-                                                Icons.close_rounded,
-                                                color: Colors.white,
-                                                size: 25,
-                                              ),
-                                            ),
-                                            onPressed: () {
+                                  children: [
+                                    Image.file(
+                                        imageFile[4],
+                                        fit: BoxFit.fill,
+                                        height: 95,
+                                        width: 95),
+                                    Positioned(
+                                        top: -12,
+                                        right: -12,
+                                        child: IconButton(
+                                          icon: const Icon(
+                                            Icons.close_rounded,
+                                            color: Colors.white,
+                                            size: 25,
+                                          ),
+                                          onPressed: () {
                                             _clearCachedFiles(4);
                                           },
                                         )
@@ -632,30 +768,22 @@ class _SendObsState extends State<SendObs> {
                                 nrImages <= 5
                                     ? null
                                     : Stack(
-                                      children: [
-                                        Image.file(
-                                          imageFile[5],
-                                          fit: BoxFit.fill,
-                                          height: 95,
-                                          width: 95),
-                                        Positioned(
-                                          top: -12,
-                                          right: -12,
-                                          child: IconButton(
-                                            icon: Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.black.withOpacity(0.5), // Cor de fundo opcional
-                                                shape: BoxShape.rectangle,
-                                                borderRadius: BorderRadius.circular(0), // Sem bordas arredondadas
-                                              ),
-                                              padding: EdgeInsets.all(0.1),
-                                              child: const Icon(
-                                                Icons.close_rounded,
-                                                color: Colors.white,
-                                                size: 25,
-                                              ),
-                                            ),
-                                            onPressed: () {
+                                  children: [
+                                    Image.file(
+                                        imageFile[5],
+                                        fit: BoxFit.fill,
+                                        height: 95,
+                                        width: 95),
+                                    Positioned(
+                                        top: -12,
+                                        right: -12,
+                                        child: IconButton(
+                                          icon: const Icon(
+                                            Icons.close_rounded,
+                                            color: Colors.white,
+                                            size: 25,
+                                          ),
+                                          onPressed: () {
                                             _clearCachedFiles(5);
                                           },
                                         )
@@ -668,9 +796,16 @@ class _SendObsState extends State<SendObs> {
                         const SizedBox(height: 15),
                         buildDescription(),
                         const SizedBox(height: 15),
-
-                            prSet1(),
-
+                        buildSlug(),
+                        const SizedBox(height: 15),
+                        buildUserGroup(),
+                        Row(
+                          children: <Widget>[
+                            buildGeo(),
+                            const Spacer(),
+                            prSet(),
+                          ],
+                        ),
                         const SizedBox(height: 25),
                         Visibility(visible: isOnline, child: buildContainer()),
                         const SizedBox(height: 25),
@@ -697,8 +832,8 @@ class _SendObsState extends State<SendObs> {
                                     color: Colors.transparent,
                                     child: InkWell(
                                       onTap: () async{
-
-                                        if (titleController !=""){
+                                        validateAndSave();
+                                        if (notValidated == false){
                                           if (slugs[slugChoose] != null) {
                                             if (imageFile.isNotEmpty) {
                                               _determinePosition();
@@ -710,18 +845,13 @@ class _SendObsState extends State<SendObs> {
                                             _noServiceError(context);
                                           }
 
-                                        } else {
-
-                                          _noTitleError(context);
                                         }
-
-
                                       },
                                       child: Center(
                                         child: Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: Text(
-                                            AppLocalizations.of(context)!.save,
+                                            AppLocalizations.of(context).save,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w500,
                                               color: Colors.white,
@@ -766,7 +896,7 @@ class _SendObsState extends State<SendObs> {
                                           ));
                                         });
                                         validateAndSave();
-                                        if (titleController !=""){
+                                        if (notValidated == false){
                                           if (slugs[slugChoose] != null){
                                             if (imageFile.isNotEmpty) {
                                               try {
@@ -775,7 +905,8 @@ class _SendObsState extends State<SendObs> {
 
                                                   _determinePosition();
 
-                                                    var response = await APIService.sendObs(titleController,descriptionController,geocodeController,public,demandingSlug,latitude,longitude, imageFile,userGroup);
+                                                  if(slugs[slugChoose] == "vine-phenological-states"){
+                                                    var response = await APIService.sendObsVPS(setTitleController,descriptionController,geocodeController,public,slugs[slugChoose],latitude,longitude, imageFile,userGroups[userGroupChoose]);
                                                     if (response ==200) {
                                                       Navigator.of(context).pop();
                                                       _sendObsSuccess(context);
@@ -783,7 +914,16 @@ class _SendObsState extends State<SendObs> {
                                                       Navigator.of(context).pop();
                                                       _sendObsFailed(context);
                                                     }
-
+                                                  } else {
+                                                    var response = await APIService.sendObs(titleController,descriptionController,geocodeController,public,slugs[slugChoose],latitude,longitude, imageFile,userGroups[userGroupChoose]);
+                                                    if (response ==200) {
+                                                      Navigator.of(context).pop();
+                                                      _sendObsSuccess(context);
+                                                    } else {
+                                                      Navigator.of(context).pop();
+                                                      _sendObsFailed(context);
+                                                    }
+                                                  }
                                                 }
                                               } on SocketException catch (_) {
                                                 validateAndSave();
@@ -802,16 +942,13 @@ class _SendObsState extends State<SendObs> {
                                             Navigator.of(context).pop();
                                             _noServiceError(context);
                                           }
-                                        } else {
-                                          Navigator.of(context).pop();
-                                          _noTitleError(context);
                                         }
                                       },
                                       child: Center(
                                         child: Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: Text(
-                                            AppLocalizations.of(context)!.send,
+                                            AppLocalizations.of(context).send,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w500,
                                               color: Colors.white,
@@ -848,7 +985,7 @@ class _SendObsState extends State<SendObs> {
           Container(
             margin: const EdgeInsets.only(left: 15.0),
             child: Text(
-              AppLocalizations.of(context)!.obs_service,
+              AppLocalizations.of(context).obs_service,
               style: const TextStyle(
                   color: Color(0xFF346cb0),
                   fontSize: 16,
@@ -862,7 +999,7 @@ class _SendObsState extends State<SendObs> {
             child: ButtonTheme(
               alignedDropdown: true,
               child: DropdownButton(
-                hint: slugs.isEmpty ? Text(AppLocalizations.of(context)!.no_slugs) : Text(AppLocalizations.of(context)!.choose_service,),
+                hint: slugs.isEmpty ? Text(AppLocalizations.of(context).no_slugs) : Text(AppLocalizations.of(context).choose_service,),
                 isExpanded: true,
                 onChanged: (newValue) {
 
@@ -896,7 +1033,7 @@ class _SendObsState extends State<SendObs> {
         ]
     );
   }
-  /*
+
   Widget buildUserGroup(){
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -904,7 +1041,7 @@ class _SendObsState extends State<SendObs> {
           Container(
             margin: const EdgeInsets.only(left: 15.0),
             child: Text(
-              AppLocalizations.of(context)!.userGroup_esc,
+              AppLocalizations.of(context).userGroup_esc,
               style: const TextStyle(
                   color: Color(0xFF346cb0),
                   fontSize: 16,
@@ -918,7 +1055,7 @@ class _SendObsState extends State<SendObs> {
             child: ButtonTheme(
               alignedDropdown: true,
               child: DropdownButton(
-                hint: userGroups.isEmpty ? Text(AppLocalizations.of(context)!.no_slugs) : Text(AppLocalizations.of(context)!.choose_service,),
+                hint: userGroups.isEmpty ? Text(AppLocalizations.of(context).no_slugs) : Text(AppLocalizations.of(context).choose_service,),
                 isExpanded: true,
                 onChanged: (newValue) {
                   setState(() {
@@ -940,84 +1077,17 @@ class _SendObsState extends State<SendObs> {
         ]
     );
   }
-  */
 
-  /*
-  * Widget buildTitle() {
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            margin: const EdgeInsets.only(left: 15.0),
-            child: Text(
-              AppLocalizations.of(context)!.obs_title,
-              style: const TextStyle(
-                  color: Color(0xFF346cb0),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          Container(
-            margin: const EdgeInsets.all(12.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 6,
-                  offset: Offset(0,2),
-                ),
-              ],
-            ),
-            padding: const EdgeInsets.all(15.0),
-            alignment: Alignment.centerLeft,
-            height: 60,
-            child: Autocomplete(
-              optionsBuilder: (TextEditingValue textEditingValue){
-                if(textEditingValue.text.isEmpty) {
-                  return const Iterable<String>.empty();
-                  print ("diogo");
-                }
-                return castasList.where((String nomeCastas) {
-                  return nomeCastas
-                      .toLowerCase()
-                      .startsWith(textEditingValue.text.toLowerCase());
-                });
-              },
-              fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmited) {
-                return TextFormField(
-                  controller: textEditingController,
-                  decoration: myTextFieldDecoration(hintText: "Insira o nome da casta"),
-                  focusNode: focusNode,
-                  onFieldSubmitted: (String value) {
-                    titleController = value;
-                    print('You just typed a new entry  $value');
-                  },
-                );
-              },
-              onSelected: (String selection) {
-                titleController = selection;
-                debugPrint('You just selected $titleController');
-              },
-
-            ),
-
-          )
-
-        ],
-      );
-  }*/
   Widget buildTitle() {
-    return Column(
+    return Visibility(
+      visible: notPheno,
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
             margin: const EdgeInsets.only(left: 15.0),
             child: Text(
-              AppLocalizations.of(context)!.obs_title,
+              AppLocalizations.of(context).obs_title,
               style: const TextStyle(
                   color: Color(0xFF346cb0),
                   fontSize: 16,
@@ -1043,8 +1113,11 @@ class _SendObsState extends State<SendObs> {
             alignment: Alignment.centerLeft,
             height: 60,
             child: TextFormField(
-
               keyboardType: TextInputType.text,
+              validator: (input) =>
+              input!.isEmpty
+                  ? AppLocalizations.of(context).obs_title_hint
+                  : null,
               onSaved: (String? value){
                 titleController = value!;
               },
@@ -1053,16 +1126,118 @@ class _SendObsState extends State<SendObs> {
               ),
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Titulo',
+                hintText: AppLocalizations.of(context).obs_title_hint,
                 hintStyle: const TextStyle(
                     color: Colors.black38
                 ),
               ),
             ),
           )
-
         ],
-      );
+      ),
+    );
+  }
+
+  Widget buildTitlePheno() {
+    return Visibility(
+      visible: isPheno,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            margin: const EdgeInsets.only(left: 15.0),
+            child: Text(
+              AppLocalizations.of(context).obs_title,
+              style: const TextStyle(
+                  color: Color(0xFF346cb0),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Container(
+            padding: const EdgeInsets.fromLTRB(12.0, 10.0, 12.0, 10.0),
+            child: ButtonTheme(
+              alignedDropdown: true,
+              child: DropdownButton<String>(
+                hint: Text(AppLocalizations.of(context).obs_title_hint),
+                elevation: 16,
+                isExpanded: true,
+                style:
+                const TextStyle(color: Colors.black, fontSize: 16.0),
+                onChanged: (String? changedValue) {
+                  my_services = changedValue;
+                  setTitleController = my_services;
+                  setState(() {
+                    my_services;
+                    _onclicked(my_services);
+                  });
+                },
+                value: my_services,
+                items: setName.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: new Text(value),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildTitleCasta() {
+    return Visibility(
+      visible: isPheno,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            margin: const EdgeInsets.only(left: 15.0),
+            child: Text(
+              AppLocalizations.of(context).obs_title,
+              style: const TextStyle(
+                  color: Color(0xFF346cb0),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Container(
+            padding: const EdgeInsets.fromLTRB(12.0, 10.0, 12.0, 10.0),
+            child: ButtonTheme(
+              alignedDropdown: true,
+              child: DropdownButton<String>(
+                hint: Text(AppLocalizations.of(context).obs_title_hint),
+                elevation: 16,
+                isExpanded: true,
+                style:
+                const TextStyle(color: Colors.black, fontSize: 16.0),
+                onChanged: (String? changedValue) {
+                  my_services = changedValue;
+                  setTitleController = my_services;
+                  setState(() {
+                    my_services;
+                    _onclicked(my_services);
+                  });
+                },
+                value: my_services,
+                items: setName.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: new Text(value),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget buildDescription() {
@@ -1072,7 +1247,7 @@ class _SendObsState extends State<SendObs> {
         Container(
           margin: const EdgeInsets.only(left: 15.0),
           child: Text(
-            AppLocalizations.of(context)!.description,
+            AppLocalizations.of(context).description,
             style: const TextStyle(
                 color: Color(0xFF346cb0),
                 fontSize: 16,
@@ -1108,7 +1283,7 @@ class _SendObsState extends State<SendObs> {
             ),
             decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: AppLocalizations.of(context)!.description_hint,
+              hintText: AppLocalizations.of(context).description_hint,
               hintStyle: const TextStyle(
                   color: Colors.black38
               ),
@@ -1123,23 +1298,23 @@ class _SendObsState extends State<SendObs> {
     return Column(
       children: <Widget>[
         Container(
-
-          child:Row(
-              children: <Widget> [
-                  Container(
-                      child: Text(
-                      AppLocalizations.of(context)!.private,
-                      style: const TextStyle(
-                          color: Color(0xFF346cb0),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w800
-                          ),
-                      ),
-                  ),
+          margin: const EdgeInsets.only(right: 12),
+          child:
+          Row( children: <Widget> [
+            Container(
+              child: Text(
+                AppLocalizations.of(context).private,
+                style: const TextStyle(
+                    color: Color(0xFF346cb0),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w800
+                ),
+              ),
+            ),
             const SizedBox(width: 2),
             Container(
               child: Text(
-                AppLocalizations.of(context)!.public,
+                AppLocalizations.of(context).public,
                 style: const TextStyle(
                     color: Color(0xFF346cb0),
                     fontSize: 16,
@@ -1182,37 +1357,6 @@ class _SendObsState extends State<SendObs> {
     );
   }
 
-  Widget prSet1(){
-    return ToggleButtons(
-      borderRadius: BorderRadius.circular(8),
-      selectedColor: Colors.white,
-      color: Colors.black,
-      fillColor: Color(0xFF346cb0),
-      isSelected: [!public, public],
-      onPressed: (index) {
-        if(index==0) {
-          setState(() {
-            public = false;
-          });
-        } else {
-        setState(() {
-          public = true;
-        });
-        }
-      },
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(AppLocalizations.of(context)!.private),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(AppLocalizations.of(context)!.public),
-        ),
-      ],
-    );
-  }
-
   Widget buildGeo() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1220,7 +1364,7 @@ class _SendObsState extends State<SendObs> {
         Container(
           margin: const EdgeInsets.only(left:12.0),
           child: Text(
-            AppLocalizations.of(context)!.geocode,
+            AppLocalizations.of(context).geocode,
             style: const TextStyle(
                 color: Color(0xFF346cb0),
                 fontSize: 16,
@@ -1256,7 +1400,7 @@ class _SendObsState extends State<SendObs> {
             ),
             decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: AppLocalizations.of(context)!.optional,
+              hintText: AppLocalizations.of(context).optional,
               hintStyle: const TextStyle(
                   color: Colors.black38
               ),
@@ -1347,8 +1491,8 @@ class _SendObsState extends State<SendObs> {
     Alert(
       context: globalFormKey.currentContext!,
       type: AlertType.success,
-      title: AppLocalizations.of(context)!.success,
-      desc: AppLocalizations.of(context)!.obs_send,
+      title: AppLocalizations.of(context).success,
+      desc: AppLocalizations.of(context).obs_send,
       buttons: [
         DialogButton(
           onPressed: () async {
@@ -1356,7 +1500,7 @@ class _SendObsState extends State<SendObs> {
           },
           width: 120,
           child: Text(
-            AppLocalizations.of(context)!.ok,
+            AppLocalizations.of(context).ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
@@ -1368,8 +1512,8 @@ class _SendObsState extends State<SendObs> {
     Alert(
       context: globalFormKey.currentContext!,
       type: AlertType.success,
-      title:  AppLocalizations.of(context)!.success,
-      desc: AppLocalizations.of(context)!.saved_obs,
+      title:  AppLocalizations.of(context).success,
+      desc: AppLocalizations.of(context).saved_obs,
       buttons: [
         DialogButton(
           onPressed: () async {
@@ -1378,7 +1522,7 @@ class _SendObsState extends State<SendObs> {
 
           width: 120,
           child: Text(
-            AppLocalizations.of(context)!.ok,
+            AppLocalizations.of(context).ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
@@ -1390,14 +1534,14 @@ class _SendObsState extends State<SendObs> {
     Alert(
       context: globalFormKey.currentContext!,
       type: AlertType.error,
-      title: AppLocalizations.of(context)!.error,
-      desc: AppLocalizations.of(context)!.err_send_obs,
+      title: AppLocalizations.of(context).error,
+      desc: AppLocalizations.of(context).err_send_obs,
       buttons: [
         DialogButton(
           onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
           width: 120,
           child: Text(
-            AppLocalizations.of(context)!.ok,
+            AppLocalizations.of(context).ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
@@ -1409,33 +1553,14 @@ class _SendObsState extends State<SendObs> {
     Alert(
       context: globalFormKey.currentContext!,
       type: AlertType.warning,
-      title: AppLocalizations.of(context)!.alert,
-      desc: AppLocalizations.of(context)!.no_image,
+      title: AppLocalizations.of(context).alert,
+      desc: AppLocalizations.of(context).no_image,
       buttons: [
         DialogButton(
           onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
           width: 120,
           child: Text(
-            AppLocalizations.of(context)!.ok,
-            style: const TextStyle(color: Colors.white, fontSize: 20),
-          ),
-        )
-      ],
-    ).show();
-  }
-
-  _noTitleError(BuildContext context) {
-    Alert(
-      context: globalFormKey.currentContext!,
-      type: AlertType.warning,
-      title: AppLocalizations.of(context)!.alert,
-      desc: AppLocalizations.of(context)!.no_title,
-      buttons: [
-        DialogButton(
-          onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
-          width: 120,
-          child: Text(
-            AppLocalizations.of(context)!.ok,
+            AppLocalizations.of(context).ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
@@ -1447,14 +1572,14 @@ class _SendObsState extends State<SendObs> {
     Alert(
       context: globalFormKey.currentContext!,
       type: AlertType.warning,
-      title: AppLocalizations.of(context)!.alert,
-      desc: AppLocalizations.of(context)!.choose_service,
+      title: AppLocalizations.of(context).alert,
+      desc: AppLocalizations.of(context).choose_service,
       buttons: [
         DialogButton(
           onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
           width: 120,
           child: Text(
-            AppLocalizations.of(context)!.ok,
+            AppLocalizations.of(context).ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
@@ -1466,14 +1591,14 @@ class _SendObsState extends State<SendObs> {
     Alert(
       context: globalFormKey.currentContext!,
       type: AlertType.info,
-      title: AppLocalizations.of(context)!.no_connection,
-      desc: AppLocalizations.of(context)!.check_connection,
+      title: AppLocalizations.of(context).no_connection,
+      desc: AppLocalizations.of(context).check_connection,
       buttons: [
         DialogButton(
           onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
           width: 120,
           child: Text(
-            AppLocalizations.of(context)!.ok,
+            AppLocalizations.of(context).ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )

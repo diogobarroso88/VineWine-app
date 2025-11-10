@@ -168,7 +168,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
     drawerList = <DrawerList>[
       DrawerList(
         index: DrawerIndex.HOME,
-        labelName: AppLocalizations.of(context)!.homepage,
+        labelName: AppLocalizations.of(context).homepage,
         icon: const Icon(Icons.home),
       ),
       /*
@@ -185,7 +185,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
        */
       DrawerList(
         index: DrawerIndex.About,
-        labelName: AppLocalizations.of(context)!.privacy,
+        labelName: AppLocalizations.of(context).privacy,
         icon: const Icon(Icons.privacy_tip),
       ),
 
@@ -276,7 +276,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             children: <Widget>[
               ListTile(
                 title: Text(
-                  AppLocalizations.of(context)!.logout,
+                  AppLocalizations.of(context).logout,
                   style: const TextStyle(
                     fontFamily: AppTheme.fontName,
                     fontWeight: FontWeight.w600,
