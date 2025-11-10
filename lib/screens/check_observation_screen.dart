@@ -77,12 +77,14 @@ class _CheckObsScreenState extends State<CheckObsScreen> {
     if (mounted){
       setState(() {
         slugChoose = slugs[selectedValue];
+
       });
     }
     try {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         print(slugChoose);
+        print(slugs);
         List<List<String>> obsData  = await APIService.getObsData(slugChoose);
         List<List<String>> obsImg = await APIService.getObsImages(slugChoose);
 
@@ -118,7 +120,7 @@ class _CheckObsScreenState extends State<CheckObsScreen> {
         Container(
           margin: const EdgeInsets.only(left: 15.0),
           child: Text(
-            AppLocalizations.of(context).choose_service,
+            AppLocalizations.of(context)!.choose_service,
             style: const TextStyle(
                 color: Color(0xFF346cb0),
                 fontSize: 16,
@@ -239,7 +241,7 @@ class _CheckObsScreenState extends State<CheckObsScreen> {
                         Container(
                           padding: const EdgeInsets.only(top: 10),
                           child: Text(
-                            AppLocalizations.of(context).check_observation,
+                            AppLocalizations.of(context)!.check_observation,
                             style: const TextStyle(
                               fontSize: 20,
                               color: Color(0xFF346cb0),
@@ -262,7 +264,7 @@ class _CheckObsScreenState extends State<CheckObsScreen> {
                                     width: 272,
                                     child:
                                     Text(
-                                      AppLocalizations.of(context).title_observation,
+                                      AppLocalizations.of(context)!.title_observation,
                                       style: const TextStyle(
                                           color: Color(0xFF346cb0),
                                           fontSize: 14,
@@ -270,7 +272,7 @@ class _CheckObsScreenState extends State<CheckObsScreen> {
                                     )),
                                 Container(
                                   child: Text(
-                                    AppLocalizations.of(context).see_details,
+                                    AppLocalizations.of(context)!.see_details,
                                     style: const TextStyle(
                                         color: Color(0xFF346cb0),
                                         fontSize: 14,
@@ -411,7 +413,7 @@ class _CheckObsScreenState extends State<CheckObsScreen> {
                 onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
                 width: 120,
                 child: Text(
-                  AppLocalizations.of(context).continuar,
+                  AppLocalizations.of(context)!.continuar,
                   style: const TextStyle(color: Colors.white, fontSize: 20),
                 ),
               ),
@@ -428,8 +430,8 @@ class _CheckObsScreenState extends State<CheckObsScreen> {
     Alert(
       context: globalFormKey!.currentContext!,
       type: AlertType.info,
-      title: AppLocalizations.of(context).no_connection,
-      desc: AppLocalizations.of(context).check_connection,
+      title: AppLocalizations.of(context)!.no_connection,
+      desc: AppLocalizations.of(context)!.check_connection,
       buttons: [
         DialogButton(
           onPressed: () async {
@@ -441,7 +443,7 @@ class _CheckObsScreenState extends State<CheckObsScreen> {
           },
           width: 120,
           child: Text(
-            AppLocalizations.of(context).ok,
+            AppLocalizations.of(context)!.ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
@@ -453,8 +455,8 @@ class _CheckObsScreenState extends State<CheckObsScreen> {
     Alert(
       context: context,
       type: AlertType.error,
-      title: AppLocalizations.of(context).error,
-      desc: AppLocalizations.of(context).no_service,
+      title: AppLocalizations.of(context)!.error,
+      desc: AppLocalizations.of(context)!.no_service,
       buttons: [
         DialogButton(
           onPressed: () async {
@@ -465,7 +467,7 @@ class _CheckObsScreenState extends State<CheckObsScreen> {
           },
           width: 120,
           child: Text(
-            AppLocalizations.of(context).ok,
+            AppLocalizations.of(context)!.ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )

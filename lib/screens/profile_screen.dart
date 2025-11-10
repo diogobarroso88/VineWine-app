@@ -42,6 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void readAll() async {
     var list = await objectbox.queryAllUsers();
     String _emailController = await TokenStorage.readSecureData("authed");
+
     for (int i = 0; i < list.length; i++) {
       if (list[i]["Email"] == _emailController) {
         setState(() {
@@ -54,7 +55,8 @@ class _ProfilePageState extends State<ProfilePage> {
         });
       }
     }
-    print (image);
+    print (nome);
+
   }
 
   void refreshData() async {
@@ -66,6 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     var list = await objectbox.queryAllUsers();
     String _emailController = await TokenStorage.readSecureData("authed");
+    print(_emailController);
     for (int i = 0; i < list.length; i++) {
       if (list[i]["Email"] == _emailController) {
         id = list[i]["id"];
@@ -148,7 +151,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(AppLocalizations.of(context).info,
+                                      Text(AppLocalizations.of(context)!.info,
                                         style: const TextStyle(
                                           fontSize: 17.0,
                                           fontWeight: FontWeight.w800,
@@ -170,7 +173,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 style: const TextStyle(
                                                   fontSize: 15.0,
                                                 ),),
-                                              Text(AppLocalizations.of(context).name,
+                                              Text(AppLocalizations.of(context)!.name,
                                                 style: TextStyle(
                                                   fontSize: 12.0,
                                                   color: Colors.grey[400],
@@ -197,7 +200,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 style: const TextStyle(
                                                   fontSize: 15.0,
                                                 ),),
-                                              Text(AppLocalizations.of(context).username,
+                                              Text(AppLocalizations.of(context)!.username,
                                                 style: TextStyle(
                                                   fontSize: 12.0,
                                                   color: Colors.grey[400],
@@ -223,7 +226,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 style: const TextStyle(
                                                   fontSize: 15.0,
                                                 ),),
-                                              Text(AppLocalizations.of(context).email,
+                                              Text(AppLocalizations.of(context)!.email,
                                                 style: TextStyle(
                                                   fontSize: 12.0,
                                                   color: Colors.grey[400],
@@ -262,7 +265,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     _offlineError(context);
                                                   }
                                                 },
-                                                child: Text(AppLocalizations.of(context).reload_info,
+                                                child: Text(AppLocalizations.of(context)!.reload_info,
                                                   style: const TextStyle(
                                                     fontSize: 15.0,
                                                     color: Colors.black,
@@ -296,7 +299,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Container(
                                   child: Column(
                                       children: [
-                                        Text(AppLocalizations.of(context).subs_serv,
+                                        Text(AppLocalizations.of(context)!.subs_serv,
                                           style: const TextStyle(
                                               color: Colors.black,
                                               fontSize: 14.0
@@ -311,7 +314,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Container(
                                     child:Column(
                                       children: [
-                                        Text(AppLocalizations.of(context).subs_obs,
+                                        Text(AppLocalizations.of(context)!.subs_obs,
                                           style: const TextStyle(
                                               color: Colors.black,
                                               fontSize: 14.0
@@ -342,14 +345,14 @@ class _ProfilePageState extends State<ProfilePage> {
     Alert(
       context: _scaffoldKey!.currentContext!,
       type: AlertType.info,
-      title: AppLocalizations.of(context).no_connection,
-      desc: AppLocalizations.of(context).check_connection,
+      title: AppLocalizations.of(context)!.no_connection,
+      desc: AppLocalizations.of(context)!.check_connection,
       buttons: [
         DialogButton(
           onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
           width: 120,
           child: Text(
-            AppLocalizations.of(context).ok,
+            AppLocalizations.of(context)!.ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
@@ -361,8 +364,8 @@ class _ProfilePageState extends State<ProfilePage> {
     Alert(
       context: _scaffoldKey!.currentContext!,
       type: AlertType.success,
-      title: AppLocalizations.of(context).success,
-      desc: AppLocalizations.of(context).reload_S,
+      title: AppLocalizations.of(context)!.success,
+      desc: AppLocalizations.of(context)!.reload_S,
       buttons: [
         DialogButton(
           onPressed: () async {
@@ -375,7 +378,7 @@ class _ProfilePageState extends State<ProfilePage> {
           },
           width: 120,
           child: Text(
-            AppLocalizations.of(context).ok,
+            AppLocalizations.of(context)!.ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )

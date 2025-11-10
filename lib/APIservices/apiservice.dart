@@ -126,7 +126,6 @@ class APIService {
     String _username = data['username'];
 
     List<String> _data = [_name, _image, _email, _username];
-
     return _data;
 
   }
@@ -168,13 +167,11 @@ class APIService {
     var urlSO = Uri.https(_url, urlSendObs);
 
     String _header = await getToken();
-
     var header = {
       "Content-Type": "application/json",
       "Authorization": _header,
     };
     Map params = {
-
       "title": title,
       "description": description,
       "latitude": latitude,
@@ -264,7 +261,6 @@ class APIService {
     };
 
     Map params = {
-
 
       "title-uuid": setTitle,
       "title": setTitle,

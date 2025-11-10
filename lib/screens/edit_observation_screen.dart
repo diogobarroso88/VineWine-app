@@ -10,6 +10,7 @@ import '../app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../database/token_storage.dart';
+import '../models/castas_list.dart';
 import '../models/image_helper.dart';
 import '../navigation_home_screen.dart';
 
@@ -40,6 +41,16 @@ class _EditObsState extends State<EditObs> {
 
   bool public = false;
 
+  InputDecoration myTextFieldDecoration({
+    String hintText = "",
+  }) {
+    return InputDecoration(
+      border: InputBorder.none,
+      hintText: hintText,
+
+    );
+  }
+
 
   List<bool> _selections = [];
   final List<bool> _selections1 = [false, true];
@@ -68,6 +79,8 @@ class _EditObsState extends State<EditObs> {
   List listUserGroupId = [];
   Map slugs = {};
   Map userGroups = {};
+  String userGroup = ("cHgxlASbYYOdK2dv");
+  String slug = ("vine-varieties-identification");
 
 
   //MultiImagePicker
@@ -99,12 +112,13 @@ class _EditObsState extends State<EditObs> {
     observation?.descricao = descriptionController;
     observation?.geocode = geocodeController;
     observation?.public = public;
-    observation?.slugs = slugs[slugChoose];
+    observation?.slugs = slug;
     observation?.imageFile = imageFilePath;
     observation?.nameOfSlug = slugChoose;
     observation?.emailController = emailController;
-    observation?.userGroupSlug = userGroupController;
-    await objectbox.addObservation(titleController,descriptionController,geocodeController,public,slugs[slugChoose],latitude,longitude,imageFilePath,emailController,slugChoose,userGroupController);
+    observation?.userGroupSlug = userGroup;
+
+    await objectbox.addObservation(titleController,descriptionController,geocodeController,public,slug,latitude,longitude,imageFilePath,emailController,slugChoose,userGroup);
   }
 
   void deleteById(int index) async {
@@ -126,7 +140,12 @@ class _EditObsState extends State<EditObs> {
 
   void readAll() async {
 
+
+    String _emailController = await TokenStorage.readSecureData("authed");
+
     setState(() {
+      emailController = _emailController;
+      titleController = widget.savedTitle;
       slugChoose = widget.savedSlug;
       userGroupIdSaved = widget.savedUserGroup;
     });
@@ -141,33 +160,6 @@ class _EditObsState extends State<EditObs> {
         public = false;
       });
     }
-
-
-    var list = await objectbox.queryAllUsers();
-    String _emailController = await TokenStorage.readSecureData("authed");
-
-
-    for (int i=0; i<list.length; i++) {
-      if (list[i]["Email"] == _emailController){
-        setState(() {
-          listItem = list[i]["Slugs Subscritas"];
-          listSlug = list[i]["Nome Slug"];
-          listUserGroupName = list[i]["UserGroups"];
-          listUserGroupId = list[i]["UserGroupsSlug"];
-        });
-        for (int j=0; j<listItem.length; j++) {
-          setState(() {
-            slugs[listItem[j]] = listSlug[j];
-            userGroups[listUserGroupId[j]] = listUserGroupName[j];
-            userGroupChoose = userGroups[userGroupIdSaved];
-            print(userGroupChoose);
-          });
-
-        }
-
-      }
-    }
-
   }
 
   Future<bool> _onBackPressed() async {
@@ -233,7 +225,7 @@ class _EditObsState extends State<EditObs> {
                         Container(
                           padding: const EdgeInsets.only(top: 10),
                           child: Text(
-                            AppLocalizations.of(context).edit_obs,
+                            AppLocalizations.of(context)!.edit_obs,
                             style: const TextStyle(
                               fontSize: 20,
                               color: Color(0xFF346cb0),
@@ -285,7 +277,7 @@ class _EditObsState extends State<EditObs> {
                                               } else {
                                                 ScaffoldMessenger.of(context).showSnackBar(
                                                   SnackBar(
-                                                    content: Text(AppLocalizations.of(context).too_many_images,),
+                                                    content: Text(AppLocalizations.of(context)!.too_many_images,),
                                                   ),
                                                 );
                                               }
@@ -298,7 +290,7 @@ class _EditObsState extends State<EditObs> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: Text(
-                                            AppLocalizations.of(context).camera,
+                                            AppLocalizations.of(context)!.camera,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w500,
                                               color: Colors.white,
@@ -347,7 +339,7 @@ class _EditObsState extends State<EditObs> {
                                               } else {
                                                 ScaffoldMessenger.of(context).showSnackBar(
                                                   SnackBar(
-                                                    content: Text(AppLocalizations.of(context).too_many_images,),
+                                                    content: Text(AppLocalizations.of(context)!.too_many_images,),
                                                   ),
                                                 );
                                               }
@@ -360,7 +352,7 @@ class _EditObsState extends State<EditObs> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: Text(
-                                            AppLocalizations.of(context).load_pics,
+                                            AppLocalizations.of(context)!.load_pics,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w500,
                                               color: Colors.white,
@@ -395,10 +387,18 @@ class _EditObsState extends State<EditObs> {
                                         top: -12,
                                         right: -12,
                                         child: IconButton(
-                                          icon: const Icon(
-                                            Icons.close_rounded,
-                                            color: Colors.white,
-                                            size: 25,
+                                          icon: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.black.withOpacity(0.5), // Cor de fundo opcional
+                                              shape: BoxShape.rectangle,
+                                              borderRadius: BorderRadius.circular(0), // Sem bordas arredondadas
+                                            ),
+                                            padding: EdgeInsets.all(0.1), // Espaçamento interno
+                                            child: const Icon(
+                                              Icons.close_rounded,
+                                              color: Colors.white,
+                                              size: 25,
+                                            ),
                                           ),
                                           onPressed: () {
                                             _clearCachedFiles(0);
@@ -424,10 +424,18 @@ class _EditObsState extends State<EditObs> {
                                         top: -12,
                                         right: -12,
                                         child: IconButton(
-                                          icon: const Icon(
-                                            Icons.close_rounded,
-                                            color: Colors.white,
-                                            size: 25,
+                                          icon: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.black.withOpacity(0.5), // Cor de fundo opcional
+                                              shape: BoxShape.rectangle,
+                                              borderRadius: BorderRadius.circular(0), // Sem bordas arredondadas
+                                            ),
+                                            padding: EdgeInsets.all(0.1),
+                                            child: const Icon(
+                                              Icons.close_rounded,
+                                              color: Colors.white,
+                                              size: 25,
+                                            ),
                                           ),
                                           onPressed: () {
                                             _clearCachedFiles(1);
@@ -560,22 +568,14 @@ class _EditObsState extends State<EditObs> {
                                   ],
                                 )
                             ),
-
                           ],
                         ),
                         const SizedBox(height: 15),
                         buildDescription(),
-                        const SizedBox(height: 15),
-                        buildSlug(),
-                        buildUserGroup(),
-                        const SizedBox(height: 15),
-                        Row(children: <Widget>[
-                          buildGeo(),
-                          const SizedBox(width: 70),
-                          prSet(),
-                        ],
-                        ),
-                        const SizedBox(height: 25),
+
+
+
+                        //prSet(),
 
                         const SizedBox(height: 25),
                         Column(
@@ -601,25 +601,23 @@ class _EditObsState extends State<EditObs> {
                                     color: Colors.transparent,
                                     child: InkWell(
                                       onTap: () async{
-                                        validateAndSave();
-                                        if (notValidated == false) {
-                                          if (slugs[slugChoose] != null) {
+
+                                        if (titleController !="") {
                                             if (imageFile.isNotEmpty) {
                                               keepObservation();
                                               _keepObsSuccess(context);
                                             } else {
                                               _noImageError(context);
                                             }
-                                          } else {
-                                            _noServiceError(context);
-                                          }
+                                        } else {
+                                          _noTitleError(context);
                                         }
                                       },
                                       child: Center(
                                         child: Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: Text(
-                                            AppLocalizations.of(context).save,
+                                            AppLocalizations.of(context)!.save,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w500,
                                               color: Colors.white,
@@ -634,51 +632,7 @@ class _EditObsState extends State<EditObs> {
                             ),
                           ],
                         ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 16),
-                              child: Center(
-                                child: Container(
-                                  margin: const EdgeInsets.fromLTRB(12,0,12,0),
-                                  height: 45,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color(0xff336db0),
-                                    boxShadow: <BoxShadow>[
-                                      BoxShadow(
-                                          color: Colors.grey.withOpacity(0.6),
-                                          offset: const Offset(4, 4),
-                                          blurRadius: 8.0),
-                                    ],
-                                  ),
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      onTap: () async{
-                                        deleteById(widget.savedIndex);
-                                        _deleteObs(context);
-                                      },
-                                      child: Center(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: Text(
-                                            AppLocalizations.of(context).delete,
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        const SizedBox(height: 25)
                       ],
                     ),
                   ),
@@ -692,67 +646,6 @@ class _EditObsState extends State<EditObs> {
   }
 
   //Page Widgets
-  Widget buildSlug(){
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-            child: DropdownButton(
-
-              isExpanded: true,
-              value: slugChoose,
-              onChanged: (newValue) {
-                setState(() {
-                  slugChoose = newValue as String;
-                  print(slugChoose);
-                });
-
-                print (slugs[slugChoose]);
-              },
-              items: listItem.map((valueItem) {
-                return DropdownMenuItem(
-                  value: valueItem,
-                  child: Text(valueItem),
-                );
-              }).toList(),
-            ),
-          ),
-        ]
-    );
-  }
-
-  Widget buildUserGroup(){
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-            child: DropdownButton(
-
-              isExpanded: true,
-              value: userGroupChoose,
-              onChanged: (newValue) {
-                setState(() {
-                  userGroupChoose = newValue as String;
-                  print(userGroupChoose);
-                });
-
-                print (userGroups[userGroupChoose]);
-              },
-              items: listUserGroupName.map((valueItem) {
-                return DropdownMenuItem(
-                  value: valueItem,
-                  child: Text(valueItem),
-                );
-              }).toList(),
-            ),
-          ),
-        ]
-    );
-  }
-
-
 
   Widget buildTitle() {
     return Column(
@@ -761,7 +654,7 @@ class _EditObsState extends State<EditObs> {
         Container(
           margin: const EdgeInsets.only(left: 15.0),
           child: Text(
-            AppLocalizations.of(context).obs_title,
+            AppLocalizations.of(context)!.obs_title,
             style: const TextStyle(
                 color: Color(0xFF346cb0),
                 fontSize: 16,
@@ -786,32 +679,42 @@ class _EditObsState extends State<EditObs> {
           padding: const EdgeInsets.all(15.0),
           alignment: Alignment.centerLeft,
           height: 60,
-          child: TextFormField(
-            initialValue: widget.savedTitle,
-            keyboardType: TextInputType.text,
-            validator: (input) =>
-            input!.isEmpty
-                ? AppLocalizations.of(context).obs_title_hint
-                : null,
-            onSaved: (String? value){
-              titleController = value!;
+          child: Autocomplete(
+            initialValue: TextEditingValue(text: widget.savedTitle),
+            optionsBuilder: (TextEditingValue textEditingValue){
+              if(textEditingValue.text.isEmpty) {
+                return const Iterable<String>.empty();
+              }
+              return castasList.where((String nomeCastas) {
+                return nomeCastas
+                    .toLowerCase()
+                    .startsWith(textEditingValue.text.toLowerCase());
+              });
             },
-            style: const TextStyle(
-                color: Colors.black87
-            ),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: AppLocalizations.of(context).obs_title_hint,
-              hintStyle: const TextStyle(
-                  color: Colors.black38
-              ),
-            ),
+            fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmited) {
+              return TextFormField(
+                controller: textEditingController,
+                decoration: myTextFieldDecoration(hintText: "Insira o nome da casta"),
+                focusNode: focusNode,
+                onFieldSubmitted: (String value) {
+                  print('You just typed a new entry  $value');
+                },
+              );
+            },
+            onSelected: (String selection) {
+              titleController = selection;
+              debugPrint('You just selected $titleController');
+            },
 
           ),
+
         )
+
       ],
     );
   }
+
+
   Widget buildDescription() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -819,7 +722,7 @@ class _EditObsState extends State<EditObs> {
         Container(
           margin: const EdgeInsets.only(left: 15.0),
           child: Text(
-            AppLocalizations.of(context).description,
+            AppLocalizations.of(context)!.description,
             style: const TextStyle(
                 color: Color(0xFF346cb0),
                 fontSize: 16,
@@ -856,7 +759,7 @@ class _EditObsState extends State<EditObs> {
             ),
             decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: AppLocalizations.of(context).description_hint,
+              hintText: AppLocalizations.of(context)!.description_hint,
               hintStyle: const TextStyle(
                   color: Colors.black38
               ),
@@ -868,116 +771,38 @@ class _EditObsState extends State<EditObs> {
     );
   }
   Widget prSet(){
-    return Column(
-      children: <Widget>[
-        Container(child:
-        Row( children: <Widget> [
-          Container(
-            child: Text(
-              AppLocalizations.of(context).private,
-              style: const TextStyle(
-                  color: Color(0xFF346cb0),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800
-              ),
-            ),
-          ),
-          const SizedBox(width: 2),
-          Container(
-            child: Text(
-              AppLocalizations.of(context).public,
-              style: const TextStyle(
-                  color: Color(0xFF346cb0),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800
-              ),
-            ),
-          )
-        ]),
+    return ToggleButtons(
+      borderRadius: BorderRadius.circular(8),
+      selectedColor: Colors.white,
+      color: Colors.black,
+      fillColor: Color(0xFF346cb0),
+      isSelected: [!public, public],
+      onPressed: (index) {
+        if(index==0) {
+          setState(() {
+            public = false;
+          });
+          print (public);
+        } else {
+          setState(() {
+            public = true;
+          });
+          print (public);
+        }
+      },
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(AppLocalizations.of(context)!.private),
         ),
-        ToggleButtons(borderWidth: 3,
-          constraints: const BoxConstraints(minWidth: 55, minHeight: 50),
-          borderRadius: BorderRadius.circular(5),
-          isSelected: _selections,
-          onPressed: (int index){
-            setState(() {
-              for (int buttonIndex = 0; buttonIndex < _selections.length; buttonIndex++) {
-                if (buttonIndex == index) {
-                  _selections[buttonIndex] = true;
-                } else {
-                  _selections[buttonIndex] = false;}
-              }
-            });
-            if(_selections[0]==false) {
-              setState(() {
-                public = true;
-              });
-            } else {
-              setState(() {
-                public = false;
-              });
-            }
-          },children: const [
-          Icon(Icons.lock_outline,),
-          Icon(Icons.lock_open_outlined)],
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(AppLocalizations.of(context)!.public),
         ),
       ],
     );
   }
-  Widget buildGeo() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          margin: const EdgeInsets.only(left:15.0),
-          child: Text(
-            AppLocalizations.of(context).geocode,
-            style: const TextStyle(
-                color: Color(0xFF346cb0),
-                fontSize: 16,
-                fontWeight: FontWeight.w800
-            ),
-          ),
-        ),
-        const SizedBox(height: 10),
-        Container(
-          margin: const EdgeInsets.only(left: 12.0),
-          width: 150.0,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black26,
-                blurRadius: 6,
-                offset: Offset(0,2),
-              ),
-            ],
-          ),
-          padding: const EdgeInsets.all(15.0),
-          alignment: Alignment.centerLeft,
-          height: 50,
-          child: TextFormField(
-            keyboardType: TextInputType.text,
-            onSaved: (String? value){
-              geocodeController = value!;
-            },
-            style: const TextStyle(
-                color: Colors.black87
-            ),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: AppLocalizations.of(context).optional,
-              hintStyle: const TextStyle(
-                  color: Colors.black38
-              ),
-            ),
 
-          ),
-        )
-      ],
-    );
-  }
 
   //Message Pop Ups
 
@@ -995,7 +820,7 @@ class _EditObsState extends State<EditObs> {
 
           width: 120,
           child: Text(
-            AppLocalizations.of(context).ok,
+            AppLocalizations.of(context)!.ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
@@ -1007,8 +832,8 @@ class _EditObsState extends State<EditObs> {
     Alert(
       context: globalFormKey.currentContext!,
       type: AlertType.success,
-      title: AppLocalizations.of(context).success,
-      desc: AppLocalizations.of(context).del_obs,
+      title: AppLocalizations.of(context)!.success,
+      desc: AppLocalizations.of(context)!.del_obs,
       buttons: [
         DialogButton(
           onPressed: () {
@@ -1016,7 +841,7 @@ class _EditObsState extends State<EditObs> {
           },
           width: 120,
           child: Text(
-            AppLocalizations.of(context).ok,
+            AppLocalizations.of(context)!.ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
@@ -1028,14 +853,14 @@ class _EditObsState extends State<EditObs> {
     Alert(
       context: globalFormKey.currentContext!,
       type: AlertType.warning,
-      title: AppLocalizations.of(context).alert,
-      desc: AppLocalizations.of(context).no_image,
+      title: AppLocalizations.of(context)!.alert,
+      desc: AppLocalizations.of(context)!.no_image,
       buttons: [
         DialogButton(
           onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
           width: 120,
           child: Text(
-            AppLocalizations.of(context).ok,
+            AppLocalizations.of(context)!.ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
@@ -1047,14 +872,33 @@ class _EditObsState extends State<EditObs> {
     Alert(
       context: globalFormKey.currentContext!,
       type: AlertType.warning,
-      title: AppLocalizations.of(context).alert,
-      desc: AppLocalizations.of(context).choose_service,
+      title: AppLocalizations.of(context)!.alert,
+      desc: AppLocalizations.of(context)!.choose_service,
       buttons: [
         DialogButton(
           onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
           width: 120,
           child: Text(
-            AppLocalizations.of(context).ok,
+            AppLocalizations.of(context)!.ok,
+            style: const TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        )
+      ],
+    ).show();
+  }
+
+  _noTitleError(BuildContext context) {
+    Alert(
+      context: globalFormKey.currentContext!,
+      type: AlertType.warning,
+      title: AppLocalizations.of(context)!.alert,
+      desc: AppLocalizations.of(context)!.no_title,
+      buttons: [
+        DialogButton(
+          onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
+          width: 120,
+          child: Text(
+            AppLocalizations.of(context)!.ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )

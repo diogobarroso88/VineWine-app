@@ -129,7 +129,9 @@ class _SavedObservationsState extends State<SavedObservations> {
   void checkObservations() async {
     String _emailController2 = await TokenStorage.readSecureData("authed");
 
+
     var list = await objectbox.queryAllObservations();
+    print(list);
 
 
     for (int i=0; i<list.length; i++) {
@@ -144,6 +146,7 @@ class _SavedObservationsState extends State<SavedObservations> {
         savedUserGroupId.add(list[i]["idOfUserGroup"]);
       }
     }
+
 
 
     if (titles.isNotEmpty) {
@@ -189,7 +192,7 @@ class _SavedObservationsState extends State<SavedObservations> {
                     left: 50,
                     right: 50,
                   ),
-                  child: Image.asset('assets/images/logo_homepage.png'),
+                  child: Image.asset('assets/images/IVDP_logo.png'),
                 ),
                 const SizedBox(height:35),
                 Visibility(
@@ -197,7 +200,7 @@ class _SavedObservationsState extends State<SavedObservations> {
                   child: Container(
                     child: Center(
                       child: Text(
-                          AppLocalizations.of(context).no_offObservation,
+                          AppLocalizations.of(context)!.no_offObservation,
                         style: const TextStyle(
                           color: Color(0xFF346cb0),
                           fontSize: 20,
@@ -273,7 +276,7 @@ class _SavedObservationsState extends State<SavedObservations> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(4.0),
                                     child: Text(
-                                      AppLocalizations.of(context).send_all,
+                                      AppLocalizations.of(context)!.send_all,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: Colors.white,
@@ -305,7 +308,7 @@ class _SavedObservationsState extends State<SavedObservations> {
                             width: 68,
 
                             child: Text(
-                              AppLocalizations.of(context).edit,
+                              AppLocalizations.of(context)!.edit,
                               style: const TextStyle(
                                   color: Color(0xFF346cb0),
                                   fontSize: 14,
@@ -319,7 +322,7 @@ class _SavedObservationsState extends State<SavedObservations> {
 
                               child:
                               Text(
-                                  AppLocalizations.of(context).title,
+                                  AppLocalizations.of(context)!.title,
                                 style: const TextStyle(
                                     color: Color(0xFF346cb0),
                                     fontSize: 14,
@@ -332,7 +335,7 @@ class _SavedObservationsState extends State<SavedObservations> {
                             width: 45,
 
                             child: Text(
-                              AppLocalizations.of(context).see,
+                              AppLocalizations.of(context)!.see,
                               style: const TextStyle(
                                   color: Color(0xFF346cb0),
                                   fontSize: 14,
@@ -345,7 +348,7 @@ class _SavedObservationsState extends State<SavedObservations> {
                             width: 50,
 
                             child: Text(
-                              AppLocalizations.of(context).delete,
+                              AppLocalizations.of(context)!.delete,
                               style: const TextStyle(
                                   color: Color(0xFF346cb0),
                                   fontSize: 14,
@@ -358,7 +361,7 @@ class _SavedObservationsState extends State<SavedObservations> {
                             width: 50,
                             alignment: Alignment.center,
                             child: Text(
-                              AppLocalizations.of(context).send,
+                              AppLocalizations.of(context)!.send,
                               style: const TextStyle(
                                   color: Color(0xFF346cb0),
                                   fontSize: 14,
@@ -420,20 +423,26 @@ class _SavedObservationsState extends State<SavedObservations> {
                                   IconButton(
                                     icon: const Icon(Icons.delete_outline),
                                     onPressed: () {
+                                      deleteObsById(indexes[index]);
+
                                       setState(() {
-                                        deleteObsById(indexes[index]);
                                         titles.removeAt(index);
                                         indexes.removeAt(index);
                                         description.removeAt(index);
                                         imageFile.removeAt(index);
                                         savedPublic.removeAt(index);
                                         savedSlugs.removeAt(index);
-                                        if (titles.isEmpty) {
-                                          setState(() {
-                                            checkObs = false;
-                                          });
-                                        }
+                                        savedUserGroupId.removeAt(index);
+
+                                         if (titles.isEmpty) {
+                                           setState(() {
+                                             checkObs = false;
+                                           });
+                                         }
+
                                       });
+
+
                                     },
                                   ),
                                   IconButton(
@@ -578,7 +587,7 @@ class _SavedObservationsState extends State<SavedObservations> {
                 onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
                 width: 120,
                 child: Text(
-                    AppLocalizations.of(context).continuar,
+                    AppLocalizations.of(context)!.continuar,
                   style: const TextStyle(color: Colors.white, fontSize: 20),
                 ),
               ),
@@ -593,8 +602,8 @@ class _SavedObservationsState extends State<SavedObservations> {
     Alert(
       context: _scaffoldKey!.currentContext!,
       type: AlertType.success,
-      title: AppLocalizations.of(context).success,
-      desc: AppLocalizations.of(context).obs_send,
+      title: AppLocalizations.of(context)!.success,
+      desc: AppLocalizations.of(context)!.obs_send,
       buttons: [
         DialogButton(
           onPressed: () async {
@@ -602,7 +611,7 @@ class _SavedObservationsState extends State<SavedObservations> {
           },
           width: 120,
           child: Text(
-            AppLocalizations.of(context).ok,
+            AppLocalizations.of(context)!.ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
@@ -614,14 +623,14 @@ class _SavedObservationsState extends State<SavedObservations> {
     Alert(
       context: _scaffoldKey!.currentContext!,
       type: AlertType.error,
-      title: AppLocalizations.of(context).error,
-      desc: AppLocalizations.of(context).err_send_obs,
+      title: AppLocalizations.of(context)!.error,
+      desc: AppLocalizations.of(context)!.err_send_obs,
       buttons: [
         DialogButton(
           onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
           width: 120,
           child: Text(
-            AppLocalizations.of(context).ok,
+            AppLocalizations.of(context)!.ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
@@ -633,14 +642,14 @@ class _SavedObservationsState extends State<SavedObservations> {
     Alert(
       context: _scaffoldKey!.currentContext!,
       type: AlertType.info,
-      title: AppLocalizations.of(context).no_connection,
-      desc: AppLocalizations.of(context).check_connection,
+      title: AppLocalizations.of(context)!.no_connection,
+      desc: AppLocalizations.of(context)!.check_connection,
       buttons: [
         DialogButton(
           onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
           width: 120,
           child: Text(
-            AppLocalizations.of(context).ok,
+            AppLocalizations.of(context)!.ok,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )

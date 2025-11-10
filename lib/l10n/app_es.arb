@@ -98,5 +98,9 @@
   "titleM" : "M - Pintor",
   "titleN" : "N - Maturação",
   "titleO" : "O - Atempamento da Vara",
-  "titleP" : "P - Queda de Folhas"
+  "titleP" : "P - Queda de Folhas",
+  "no_title" : "Adicione um titulo válido!",
+  "no_coord" : "¡Coordenadas GPS no válidas!",
+  "coord_confirm" : "Por favor inténtalo de nuevo.",
+  "send_obs_art" : "Detección de plagas de la vid"
 }

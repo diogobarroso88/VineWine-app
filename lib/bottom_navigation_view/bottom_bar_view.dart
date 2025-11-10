@@ -1,11 +1,12 @@
 import 'dart:math' as math;
-import 'package:vinewineapp/home_screen.dart';
-
+import 'package:geolocator/geolocator.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../home_app_theme.dart';
 import 'package:flutter/material.dart';
-
 import '../models/tabIcon_data.dart';
 import '../screens/send_observation_screen.dart';
+
 
 
 class BottomBarView extends StatefulWidget {
@@ -23,11 +24,76 @@ class BottomBarView extends StatefulWidget {
 class _BottomBarViewState extends State<BottomBarView>
     with TickerProviderStateMixin {
   late AnimationController animationController;
+  GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
 
 
   late double latitude;
   late double longitude;
 
+
+  ///GPS Location and Map
+  Future<bool> _determinePosition() async {
+    bool serviceEnabled;
+    bool margem = false;
+    bool timer = false;
+    int i =0;
+    LocationPermission permission;
+    List<double> coordenadas = [];
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    Position _position = await Geolocator.getCurrentPosition();
+
+    coordenadas.add(_position.latitude);
+    coordenadas.add(_position.longitude);
+
+    print(coordenadas);
+    while (timer==false) {
+
+      Position _position2 = await Geolocator.getCurrentPosition();
+
+      if(_position2.latitude > 36.55 && _position2.latitude < 42.60) {
+        if(_position2.longitude > -9.50 && _position2.longitude < -5.65){
+
+          setState(() {
+            margem = true;
+            timer = true;
+          });
+        }
+      }
+      i++;
+      print(i);
+      if (i==100)
+        {
+          setState(() {
+            timer= true;
+          });
+        }
+    }
+    Navigator.of(context).pop();
+    return margem;
+  }
 
 
   @override
@@ -167,12 +233,34 @@ class _BottomBarViewState extends State<BottomBarView>
                           splashColor: Colors.white.withOpacity(0.1),
                           highlightColor: Colors.transparent,
                           focusColor: Colors.transparent,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SendObs()),
-                            );
+                          onTap: () async {
+                            showDialog(context: context, builder: (context){
+                              return Center(child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CircularProgressIndicator(
+                                    color: Color(0xff336db0),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Text(
+                                    'Carregar coordenadas',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              ));
+                            });
+
+                            bool siga = await _determinePosition();
+                            
+                            if (siga == true) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SendObs()),
+                              );
+                            } else {
+                              _offlineError(context);
+                            }
                           },
                           child: const Icon(
                             Icons.add,
@@ -204,9 +292,28 @@ class _BottomBarViewState extends State<BottomBarView>
     });
   }
 
-
+  _offlineError(BuildContext context) {
+    Alert(
+      context: context,
+      type: AlertType.info,
+      title: AppLocalizations.of(context)!.no_coord,
+      desc: AppLocalizations.of(context)!.coord_confirm,
+      buttons: [
+        DialogButton(
+          onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
+          width: 120,
+          child: Text(
+            AppLocalizations.of(context)!.ok,
+            style: const TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        )
+      ],
+    ).show();
+  }
 
 }
+
+
 
 class TabIcons extends StatefulWidget {
   const TabIcons({Key? key, this.tabIconData, this.removeAllSelect})
@@ -393,3 +500,5 @@ class TabClipper extends CustomClipper<Path> {
     return redian;
   }
 }
+
+
