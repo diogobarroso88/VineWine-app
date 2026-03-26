@@ -1,16 +1,5 @@
-# vinewineapp
+# VineWine App
 
-The vinewine app
+VineWine is an application developed to support vineyard data collection, enabling the creation of structured datasets for training artificial intelligence models. It allows users to record field observations efficiently and transform them into insights that assist viticulturists in decision-making and vineyard management.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This application was developed as part of a PhD project within the digital platform Vine & Wine, a core and integrative initiative of the program “Vine & Wine Portugal: Driving Sustainable Growth Through Smart Innovation” under the PRR.
